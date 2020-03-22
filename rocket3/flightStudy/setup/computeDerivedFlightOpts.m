@@ -5,12 +5,12 @@ function opts = computeDerivedFlightOpts(opts)
     opts.OxidizerTankPressure = 5e6;
     opts.OxidizerTankDiameter = 0.075;
     opts.OxidizerTankDensity  = 2700;
-    opts.OxidizerTankSigma  = 290*10e6/2;   % allowable stress: half of transile strength (assumption)
+    opts.OxidizerTankSigma  = 290*10^6/2;   % allowable stress: half of transile strength (assumption)
     opts.OxidizerTankSafetyMargin = 1.5;
     opts.ccCombustionPressure = 4.5e6;
     opts.ccDiameter = 0.075;
     opts.ccDensity  = 2700;
-    opts.ccSigma  = 290*10e6/2;             % allowable stress: half of transile strength (assumption)
+    opts.ccSigma  = 290*10^6/2;             % allowable stress: half of transile strength (assumption)
     opts.ccSafetyMargin = 1.5;
     
     opts.OxidizerMass = opts.PropellantMass * ofRatio / (ofRatio + 1);
@@ -19,7 +19,7 @@ function opts = computeDerivedFlightOpts(opts)
     opts.OxidizerVolume = opts.OxidizerMass / 770;
     opts.FuelVolume = opts.FuelMass / 900;
     
-    % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, Sigma, rho, safety margin);
+    % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, Sigma (allowable stress), rho, safety margin);
     [oxTankMass, oxTankLength, oxTankWallThickness, oxTankMassCheck, oxTankWallThicknessCheck] = capsuleTank(opts.OxidizerVolume, opts.OxidizerTankDiameter, opts.OxidizerTankPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, opts.OxidizerTankSafetyMargin);
     [ccMass, ccLength, ccWallThickness, ccMassCheck, ccWallThicknessCheck] = capsuleTank(opts.FuelVolume, opts.ccDiameter, opts.ccCombustionPressure, opts.ccSigma, opts.ccDensity, opts.ccSafetyMargin);
     
