@@ -10,12 +10,14 @@ function opts = computeDerivedFlightOpts(opts)
     opts.OxidizerVolume = opts.OxidizerMass / 770;
     opts.FuelVolume = opts.FuelMass / 900;
     
-    [oxTankMass, oxTankLength] = capsuleTank(opts.OxidizerVolume, 0.075, tankPressure, 1.35e-5);
-    [ccMass, ccLength] = capsuleTank(opts.FuelVolume, 0.075, combustionPressure, 1.35e-5);
+    % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, rhoOverSigma, Sigma, rho, safety margin);
+    [oxTankMass, oxTankLength, oxTankWallThickness] = capsuleTank(opts.OxidizerVolume, 0.075, tankPressure, 1.35e-5, 200*10^6, 2700, 1.5);
+    [ccMass, ccLength, ccWallThickness] = capsuleTank(opts.FuelVolume, 0.075, combustionPressure, 1.35e-5, 200*10^6, 2700, 1.5);
     
     opts.OxidizerTankLength = oxTankLength;
     opts.FuelGrainLength = ccLength;
-    
+    opts.OxidizerTankWallThickness = oxTankWallThickness;
+   
     engineMass = 6;
     dryMass = opts.PayloadMass + oxTankMass + ccMass + engineMass;
     wetMass = opts.PropellantMass + dryMass;
