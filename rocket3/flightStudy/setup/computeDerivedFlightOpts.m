@@ -1,23 +1,13 @@
 function opts = computeDerivedFlightOpts(opts)
-    ofRatio = 4;
     
-    % Material properties from: https://www.nedal.com/wp-content/uploads/2016/11/Nedal-alloy-Datasheet-EN-AW-6082.pdf
-    opts.OxidizerTankPressure = 5e6;
-    opts.OxidizerTankDiameter = 0.075;
-    opts.OxidizerTankDensity  = 2700;
-    opts.OxidizerTankSigma  = 290*10^6/2;   % allowable stress: half of transile strength (assumption)
-    opts.OxidizerTankSafetyMargin = 1.5;
-    opts.ccCombustionPressure = 4.5e6;
-    opts.ccDiameter = 0.075;
-    opts.ccDensity  = 2700;
-    opts.ccSigma  = 290*10^6/2;             % allowable stress: half of transile strength (assumption)
-    opts.ccSafetyMargin = 1.5;
+    % Get input parameters
+    run 'capsuleTank_data_input.m'
     
     opts.OxidizerMass = opts.PropellantMass * ofRatio / (ofRatio + 1);
     opts.FuelMass = opts.PropellantMass * (1) / (ofRatio + 1);
     
-    opts.OxidizerVolume = opts.OxidizerMass / 770;
-    opts.FuelVolume = opts.FuelMass / 900;
+    opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
+    opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
     
     % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, Sigma (allowable stress), rho, safety margin);
     [oxTankMass, oxTankLength, oxTankWallThickness, oxTankMassCheck, oxTankWallThicknessCheck] = capsuleTank(opts.OxidizerVolume, opts.OxidizerTankDiameter, opts.OxidizerTankPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, opts.OxidizerTankSafetyMargin);
