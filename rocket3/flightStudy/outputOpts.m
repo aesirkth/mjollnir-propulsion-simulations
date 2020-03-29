@@ -1,6 +1,4 @@
-flightOpts
 outputOpts(flightOpts)
-
 function outputOpts(opts)
     fprintf("Assumptions:\n");
     fprintf("  Oxidizer-fuel ratio: %.2f\n", opts.OxidizerFuelRatio);
@@ -15,19 +13,19 @@ function outputOpts(opts)
     fprintf("  Oxidizer tank pressure: %.2f MPa\n", opts.OxidizerTankPressure/1e6);
     fprintf("  Combustion pressure: %.2f MPa\n", opts.CombustionChamberPressure/1e6);
     
-    fprintf("Material properties:\n");
-    fprintf("  Oxidizer density: %.0f kg/m^3\n", opts.OxidizerDensity);
-    fprintf("  Fuel density: %.0f kg/m^3\n", opts.FuelDensity);
-    fprintf("  Oxidizer tank:\n");
-    fprintf("    Material density: %.0f kg/m^3\n", opts.OxidizerTankDensity);
-    fprintf("    Sigma: %.1f [MPa]\n", opts.OxidizerTankSigma/1e6);
-    fprintf("    Safety margin: %.1fx\n", opts.OxidizerTankSafetyMargin);
-    fprintf("  Combustion chamber:\n");
-    fprintf("    Material density: %.0f kg/m^3\n", opts.CombustionChamberDensity);
-    fprintf("    Sigma: %.1f [MPa]\n", opts.CombustionChamberSigma/1e6);
-    fprintf("    Safety margin: %.1fx\n", opts.CombustionChamberSafetyMargin);
+    fprintf("  Material properties:\n");
+    fprintf("    Oxidizer density: %.0f kg/m^3\n", opts.OxidizerDensity);
+    fprintf("    Fuel density: %.0f kg/m^3\n", opts.FuelDensity);
+    fprintf("    Oxidizer tank:\n");
+    fprintf("      Material density: %.0f kg/m^3\n", opts.OxidizerTankDensity);
+    fprintf("      Sigma: %.1f [MPa]\n", opts.OxidizerTankSigma/1e6);
+    fprintf("      Safety margin: %.1fx\n", opts.OxidizerTankSafetyMargin);
+    fprintf("    Combustion chamber:\n");
+    fprintf("      Material density: %.0f kg/m^3\n", opts.CombustionChamberDensity);
+    fprintf("      Sigma: %.1f [MPa]\n", opts.CombustionChamberSigma/1e6);
+    fprintf("      Safety margin: %.1fx\n", opts.CombustionChamberSafetyMargin);
     
-    fprintf("Dimensions and masses:\n");
+    fprintf("Dimensions:\n");
     fprintf("  Oxidizer tank:\n");
     fprintf("    Radius: %.2f cm\n", 1e2*opts.OxidizerTankRadius);
     fprintf("    Diameter: %.2f cm\n", 1e2*opts.OxidizerTankDiameter);
@@ -43,7 +41,7 @@ function outputOpts(opts)
     fprintf("    Volume: %.2f l\n", 10*10*10*opts.FuelVolume);
     fprintf("    Mass: %.2f kg\n", opts.CombustionChamberMass);
     
-    fprintf("Dimensions and masses:\n");
+    fprintf("Masses:\n");
     fprintf("  Dry: %.2f kg\n", opts.DryMass);
     fprintf("  Wet: %.2f kg\n", opts.WetMass);
     fprintf("  Propellant: %.2f kg\n", opts.PropellantMass);
@@ -57,4 +55,10 @@ function outputOpts(opts)
     fprintf("  Engine mass: %.2f kg\n", opts.EngineMass);
     fprintf("   - Fixed: %.2f kg\n", opts.FixedEngineMass);
     fprintf("   - Combustion chamber: %.2f kg\n", opts.CombustionChamberMass);
+    
+    fprintf("Engine properties:\n");
+    fprintf("  Thrust: %.2f kN\n", opts.Thrust/1e3);
+    fprintf("  Burn time: %.1f s\n", opts.BurnTime);
+    fprintf("  Mass flow: %.2f kg/s\n", opts.MassFlow);
+    fprintf("    Oxidizer flow: %.2f kg/s\n", opts.MassFlow * (opts.OxidizerFuelRatio) / (opts.OxidizerFuelRatio + 1));
 end

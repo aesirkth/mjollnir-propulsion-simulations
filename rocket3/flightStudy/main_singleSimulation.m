@@ -32,4 +32,8 @@ model = @(t, y) flightModel(t, y, flightOpts);
 odeOpts = odeset('Events', @flightModelEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
 [t, State] = ode45(model, [0 500], [0 0 0 0 flightOpts.PropellantMass], odeOpts);
 
+%%
 plotSingleSimulation(flightOpts, t, State);
+
+%%
+outputOpts(flightOpts)

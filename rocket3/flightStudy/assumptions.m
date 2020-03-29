@@ -14,7 +14,7 @@ rocketDiameterInCentimeters = 15;
 fuelGrainDiameterInCentimeters = 15;
 diameterOfNozzleExhaustInCentimeters = 8;
 specificImpulse = 150;
-launchAngle = 85;
+launchAngle = 87;
 
 tankPressure = 5e6; % Nitrous vapor pressure
 combustionPressure = 4.5e6;

@@ -9,25 +9,25 @@ function plotSingleSimulation(flightOpts, t, State)
 
     burnOutIndex = find(max(0, t - flightOpts.BurnTime), 1);
     [~, apogeeIndex] = max(altitude);
-
+    
+    global storeFiguresToFile;
+    storeFiguresToFile = 1;
     setupSubplots(4,3);
 
-    nextPlot();
-    plot(r(:,1)/1e3, r(:,2)/1e3, '-', 'HandleVisibility','off')
+    plot(r(:,1)/1e3, r(:,2)/1e3, '-', 'LineWidth', 2, 'HandleVisibility','off')
     hold on
     plot(r(1,1)/1e3, r(1,2)/1e3, '*', 'DisplayName', 'Initial')
     plot(r(apogeeIndex,1)/1e3, r(apogeeIndex,2)/1e3, 'b*', 'DisplayName', 'Apogee')
     plot(r(burnOutIndex,1)/1e3, r(burnOutIndex,2)/1e3, 'ro', 'DisplayName', 'Burnout')
     xlabel("downrange [km]");
     ylabel("altitude [km]");
-    axis equal
     title("2D trajectory");
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
+    nextPlot('plot1_downrangeAltitude');
     
-    nextPlot();
-    plot(t, altitude/1e3, 'HandleVisibility','off');
+    plot(t, altitude/1e3, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), altitude(apogeeIndex)/1e3, 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), altitude(burnOutIndex)/1e3, 'ro', 'DisplayName', 'Burnout')
@@ -37,9 +37,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-    nextPlot();
-    plot(t, vMag, 'HandleVisibility','off');
+    nextPlot('plot2_altitudeOverTime');
+    
+    plot(t, vMag, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), vMag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), vMag(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -49,10 +49,10 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-    nextPlot();
+    nextPlot('plot3_velocityOverTime');
+    
     [ambientDensity, ambientPressure, speedOfSound] = atmosphereModel(altitude);
-    plot(t, vMag./speedOfSound, 'HandleVisibility','off');
+    plot(t, vMag./speedOfSound, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), vMag(apogeeIndex)./speedOfSound(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), vMag(burnOutIndex)./speedOfSound(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -62,9 +62,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
+    nextPlot('plot4_machOverTime');
     
-    nextPlot();
-    plot(altitude / 1000, vMag, 'HandleVisibility','off')
+    plot(altitude / 1000, vMag, 'LineWidth', 2, 'HandleVisibility','off')
     hold on
     plot(altitude(1) / 1000, vMag(1), '*', 'DisplayName', 'Initial')
     plot(altitude(apogeeIndex) / 1000, vMag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -75,10 +75,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-
-    nextPlot();
-    plot(t, abs(acceleration)/9.8066, 'HandleVisibility','off');
+    nextPlot('plot5_velocityWithAltitude');
+    
+    plot(t, abs(acceleration)/9.8066, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), abs(acceleration(apogeeIndex))/9.8066, 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), abs(acceleration(burnOutIndex))/9.8066, 'ro', 'DisplayName', 'Burnout')
@@ -88,9 +87,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
+    nextPlot('plot6_accelerationOverTime');
     
-    nextPlot();
-    plot(t, ambientPressure/1e3, 'HandleVisibility','off');
+    plot(t, ambientPressure/1e3, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), ambientPressure(apogeeIndex)/1e3, 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), ambientPressure(burnOutIndex)/1e3, 'ro', 'DisplayName', 'Burnout')
@@ -100,9 +99,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-    nextPlot();
-    plot(t, ambientDensity, 'HandleVisibility','off');
+    nextPlot('plot7_ambientPressure');
+    
+    plot(t, ambientDensity, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), ambientDensity(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), ambientDensity(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -112,13 +111,12 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-
-    nextPlot();
+    nextPlot('plot8_atmosphereDensity');
+    
     Cd = dragCoefficientModel(vMag, speedOfSound);
     % mass = massModel(t, flightOpts.DryMass, propellantMass);
     dragFactor = dragModel(vMag, ambientDensity, flightOpts.Radius, Cd);
-    plot(t, dragFactor, 'HandleVisibility','off');
+    plot(t, dragFactor, 'LineWidth', 2, 'HandleVisibility','off');
     hold on
     plot(t(apogeeIndex), dragFactor(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), dragFactor(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -128,9 +126,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-    nextPlot();
-    plot(altitude / 1000, dragFactor, 'HandleVisibility','off')
+    nextPlot('plot9_dragOvertime');
+    
+    plot(altitude / 1000, dragFactor, 'LineWidth', 2, 'HandleVisibility','off')
     hold on
     plot(altitude(1) / 1000, dragFactor(1), '*', 'DisplayName', 'Initial')
     plot(altitude(apogeeIndex) / 1000, dragFactor(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -141,9 +139,9 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
-
-    nextPlot();
-    plot(t, propellantMass, 'HandleVisibility','off')
+    nextPlot('plot10_dragWithAltitude');
+    
+    plot(t, propellantMass, 'LineWidth', 2, 'HandleVisibility','off')
     hold on
     plot(t(apogeeIndex), propellantMass(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), propellantMass(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -155,10 +153,10 @@ function plotSingleSimulation(flightOpts, t, State)
     xticks([0 t(burnOutIndex) t(apogeeIndex)]);
     grid on
     scaleLims(0.1);
-
-    nextPlot();
+    nextPlot('plot11_propellantOverTime');
+    
     massFlow = gradient(propellantMass, t);
-    plot(t, massFlow, 'HandleVisibility','off')
+    plot(t, massFlow, 'LineWidth', 2, 'HandleVisibility','off')
     hold on
     plot(t(apogeeIndex), massFlow(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
     plot(t(burnOutIndex), massFlow(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
@@ -170,5 +168,6 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
+    nextPlot('plot12_massFlowOverTime');
 end
 

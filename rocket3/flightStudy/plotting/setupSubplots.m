@@ -4,4 +4,6 @@ function setupSubplots(w, h)
     plotsTall = h;
     plotIndex = 1;
     clf
+    
+    nextPlot('');
 end
