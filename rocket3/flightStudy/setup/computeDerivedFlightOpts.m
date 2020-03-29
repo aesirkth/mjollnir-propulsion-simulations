@@ -1,27 +1,34 @@
 function opts = computeDerivedFlightOpts(opts)
-    ofRatio = 4;
     
-    tankPressure = 5e6;
-    combustionPressure = 4.5e6;
+    % Get input parameters
+    run 'capsuleTank_data_input.m'
     
     opts.OxidizerMass = opts.PropellantMass * ofRatio / (ofRatio + 1);
     opts.FuelMass = opts.PropellantMass * (1) / (ofRatio + 1);
     
-    opts.OxidizerVolume = opts.OxidizerMass / 770;
-    opts.FuelVolume = opts.FuelMass / 900;
+    opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
+    opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
     
-    [oxTankMass, oxTankLength] = capsuleTank(opts.OxidizerVolume, 0.075, tankPressure, 1.35e-5);
-    [ccMass, ccLength] = capsuleTank(opts.FuelVolume, 0.075, combustionPressure, 1.35e-5);
+    % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, Sigma (allowable stress), rho, safety margin);
+    [oxTankMass, oxTankLength, oxTankWallThickness, oxTankMassCheck, oxTankWallThicknessCheck] = capsuleTank(opts.OxidizerVolume, opts.OxidizerTankDiameter, opts.OxidizerTankPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, opts.OxidizerTankSafetyMargin);
+    [ccMass, ccLength, ccWallThickness, ccMassCheck, ccWallThicknessCheck] = capsuleTank(opts.FuelVolume, opts.ccDiameter, opts.ccCombustionPressure, opts.ccSigma, opts.ccDensity, opts.ccSafetyMargin);
     
-    opts.OxidizerTankLength = oxTankLength;
+    opts.OxidizerTankMass = oxTankMass;
+    opts.OxidizerTankMassCheck = oxTankMassCheck;
+    opts.OxidizerTankLength = oxTankLength;    
+    opts.OxidizerTankWallThickness = oxTankWallThickness;
+    opts.OxidizerTankWallThicknessCheck = oxTankWallThicknessCheck;
     opts.FuelGrainLength = ccLength;
-    
+    opts.ccWallThickness = ccWallThickness;
+    opts.ccWallThicknessCheck = ccWallThicknessCheck;    
+   
     engineMass = 6;
     dryMass = opts.PayloadMass + oxTankMass + ccMass + engineMass;
     wetMass = opts.PropellantMass + dryMass;
     
-    opts.OxidizerTankMass = oxTankMass;
+    
     opts.CombustionChamberMassIsh = ccMass;
+    opts.CombustionChamberMassIshCheck = ccMassCheck;
     opts.EngineMass = engineMass;
     
     opts.WetMass = wetMass;
