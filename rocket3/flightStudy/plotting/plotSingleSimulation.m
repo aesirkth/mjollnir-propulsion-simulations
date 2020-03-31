@@ -1,6 +1,8 @@
 function plotSingleSimulation(flightOpts, t, State)
     r = State(:, 1:2);
     v = State(:, 3:4);
+    
+    goalKm = 12;
 
     altitude = r(:,2);
     vMag = vecnorm(v');
@@ -19,6 +21,8 @@ function plotSingleSimulation(flightOpts, t, State)
     plot(r(1,1)/1e3, r(1,2)/1e3, '*', 'DisplayName', 'Initial')
     plot(r(apogeeIndex,1)/1e3, r(apogeeIndex,2)/1e3, 'b*', 'DisplayName', 'Apogee')
     plot(r(burnOutIndex,1)/1e3, r(burnOutIndex,2)/1e3, 'ro', 'DisplayName', 'Burnout')
+    lims = xlim;
+    plot(lims, [goalKm goalKm], '--', 'LineWidth', 2, 'DisplayName', sprintf("%.0f km goal", goalKm))
     xlabel("downrange [km]");
     ylabel("altitude [km]");
     title("2D trajectory");
