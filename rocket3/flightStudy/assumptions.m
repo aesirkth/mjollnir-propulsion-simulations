@@ -16,7 +16,7 @@ massFlow = 2.5; % Total mass flow of usable propellant
 combustionChamberDiameterCm = 15;
 fuelGrainLengthCm = 33;
 fuelGrainMarginThicknessMm = 8;
-fuelGrainCenterPortDiameterCm = 4;
+fuelGrainCenterPortDiameterCm = 5;
 
 diameterOfNozzleExhaustInCentimeters = 8;
 specificImpulse = 150;

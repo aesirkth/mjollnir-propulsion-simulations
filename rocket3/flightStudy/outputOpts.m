@@ -7,6 +7,8 @@ function outputOpts(opts)
     fprintf("  Fuel margin thickness: %.1f mm\n", 1e3*opts.FuelGrainMarginThickness);
     fprintf("  Fuel grain length: %.1f cm\n", 1e2*opts.FuelGrainLength);
     fprintf("  Fuel grain port diameter: %.1f cm\n", 1e2*opts.FuelGrainPortRadius*2);
+    fprintf("  Fuel grain usable diameter: %.1f cm\n", 1e2*opts.FuelGrainUsableDiameter);
+    fprintf("  Fuel grain exterior diameter: %.1f cm\n", 1e2*opts.FuelGrainExteriorDiameter);
     fprintf("  Isp: %.1f s\n", opts.Isp);
     fprintf("  Nozzle expansion pressure: %.1f atm\n", opts.ExpansionPressure / 101300);
     fprintf("  Mass flow: %.1f kg/s\n", opts.MassFlow);
