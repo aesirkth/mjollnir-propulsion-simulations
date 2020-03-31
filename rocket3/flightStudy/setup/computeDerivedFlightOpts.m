@@ -5,7 +5,10 @@
 %     'ElectronicsMass', [kg]
 %     'BodyTubeMass', [kg]
 %     'PayloadMass', [kg]
-%     'PropellantMass', [kg]
+%     'CombustionChamberRadius', [m]
+%     'FuelGrainLength', [m]
+%     'FuelGrainMarginThickness', [m]
+%     'FuelGrainPortRadius', [m]
 %     'TankPressure', [Pa] // Pressure in oxidizer tank
 %     'CombustionPressure', [Pa] // Combustion pressure
 %     'Radius', [m] // Radius of rocket
@@ -22,22 +25,38 @@ function opts = computeDerivedFlightOpts(opts)
 
     [oxidizerDensity, oxidizerVaporPressure, fuelDensity] = propellantProperties();
     
+    % Set fuel grain properties
+    fuelGrainRadiusInsideMargin = opts.CombustionChamberRadius - opts.FuelGrainMarginThickness;
+    
+    opts.CombustionChamberDiameter = opts.CombustionChamberRadius * 2;
+    opts.FuelGrainUsableRadius = fuelGrainRadiusInsideMargin;
+    opts.FuelGrainUsableDiameter = fuelGrainRadiusInsideMargin * 2;
+    opts.FuelGrainExteriorRadius = opts.CombustionChamberRadius;
+    opts.FuelGrainExteriorDiameter = opts.CombustionChamberRadius * 2;
+    
+    volumeInsidePort = opts.FuelGrainPortRadius^2 * pi * opts.FuelGrainLength;
+    usableFuelVolume = opts.FuelGrainLength * (opts.FuelGrainUsableRadius^2) * pi - volumeInsidePort;
+    unusableFuelVolume = opts.FuelGrainLength * (opts.CombustionChamberRadius^2) * pi - usableFuelVolume - volumeInsidePort;
+    opts.FuelGrainVolume = usableFuelVolume;
+    opts.FuelGrainMarginVolume = unusableFuelVolume;
+    
+    opts.FuelMass = usableFuelVolume * fuelDensity;
+    opts.FuelMarginMass = unusableFuelVolume * fuelDensity;
 
     % Set propellant parameters
     opts.OxidizerDensity = oxidizerDensity;
     opts.FuelDensity = fuelDensity;
     
+    opts.PropellantMass = opts.FuelMass * (opts.OxidizerFuelRatio + 1);
     opts.OxidizerMass = opts.PropellantMass * opts.OxidizerFuelRatio / (opts.OxidizerFuelRatio + 1);
     opts.FuelMass = opts.PropellantMass * (1) / (opts.OxidizerFuelRatio + 1);
     
     opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
-    opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
+    opts.FuelVolume = opts.FuelGrainLength * (opts.FuelGrainExteriorRadius^2) * pi;
     
     if opts.TankPressure < oxidizerVaporPressure
         error("opts.TankPressure < oxidizerVaporPressure");
     end
-    
-    opts.CombustionPressure = 4.5e6;
     
     % Oxidizer tank parameters
     [otDensity, otSigma, otSafetyMargin] = oxidizerTankMaterialProperties();
@@ -51,8 +70,8 @@ function opts = computeDerivedFlightOpts(opts)
     % Combustion chamber parameters
     [ccDensity, ccSigma, ccSafetyMargin] = combustionChamberMaterialProperties();
     opts.CombustionChamberPressure = opts.CombustionPressure;
-    opts.CombustionChamberRadius = opts.FuelGrainRadius;
-    opts.CombustionChamberDiameter = opts.FuelGrainRadius*2;
+    opts.CombustionChamberRadius = opts.FuelGrainExteriorRadius;
+    opts.CombustionChamberDiameter = opts.FuelGrainExteriorRadius*2;
     opts.CombustionChamberDensity  = ccDensity;
     opts.CombustionChamberSigma  = ccSigma;
     opts.CombustionChamberSafetyMargin = ccSafetyMargin;
@@ -62,16 +81,17 @@ function opts = computeDerivedFlightOpts(opts)
         capsuleTank(opts.OxidizerVolume, opts.OxidizerTankRadius, opts.OxidizerTankPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, opts.OxidizerTankSafetyMargin);
     opts.OxidizerTankMass = oxTankMass;
     opts.OxidizerTankMassCheck = oxTankMassCheck;
-    opts.OxidizerTankLength = oxTankLength;    
+    opts.OxidizerTankLength = oxTankLength; % Length of cylinder part, the chamber itself is assumed to be with hemispherical ends for some extra mass margin...
     opts.OxidizerTankWallThickness = oxTankWallThickness;
     opts.OxidizerTankWallThicknessCheck = oxTankWallThicknessCheck;
     
+    combustionChamberVolume = opts.FuelVolume + (4/3 * pi * opts.FuelGrainExteriorRadius^3);
     % Model the combustion chamber
      [ccMass, ccLength, ccWallThickness, ccMassCheck, ccWallThicknessCheck] = ...
-        capsuleTank(opts.FuelVolume, opts.CombustionChamberRadius, opts.CombustionChamberPressure, opts.CombustionChamberSigma, opts.CombustionChamberDensity, opts.CombustionChamberSafetyMargin);
-    
-    opts.FuelGrainLength = ccLength;
-    opts.CombustionChamberLength = ccLength;
+        capsuleTank(combustionChamberVolume, opts.CombustionChamberRadius, opts.CombustionChamberPressure, opts.CombustionChamberSigma, opts.CombustionChamberDensity, opts.CombustionChamberSafetyMargin);
+        
+    % opts.FuelGrainLength = ccLength;
+    opts.CombustionChamberLength = ccLength; % Length of cylinder part, the chamber itself is assumed to be with hemispherical ends for some extra mass margin...
     opts.CombustionChamberMass = ccMass;
     opts.CombustionChamberMassCheck = ccMassCheck;
     opts.CombustionChamberWallThickness = ccWallThickness;
@@ -85,7 +105,7 @@ function opts = computeDerivedFlightOpts(opts)
     
     opts.EngineMass = engineMass;
     opts.WetMass = wetMass;
-    opts.DryMass = dryMass;
+    opts.DryMass = dryMass + opts.FuelMarginMass;
     
     % opts.PropellantMass = opts.WetMass - opts.DryMass;
     opts.BurnTime = opts.PropellantMass / opts.MassFlow;

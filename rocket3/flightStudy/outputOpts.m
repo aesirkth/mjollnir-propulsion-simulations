@@ -1,11 +1,12 @@
-outputOpts(flightOpts)
 function outputOpts(opts)
     fprintf("Assumptions:\n");
     fprintf("  Oxidizer-fuel ratio: %.2f\n", opts.OxidizerFuelRatio);
-    fprintf("  Propellant mass: %.2f kg\n", opts.PropellantMass);
     fprintf("  Non-engine dry mass: %.2f kg\n", opts.PayloadMass);
     fprintf("  Rocket diameter: %.1f cm\n", 1e2*opts.Radius*2);
-    fprintf("  Fuel grain diameter: %.1f cm\n", 1e2*opts.FuelGrainRadius*2);
+    fprintf("  Combustion chamber diameter: %.1f cm\n", 1e2*opts.CombustionChamberDiameter);
+    fprintf("  Fuel margin thickness: %.1f mm\n", 1e3*opts.FuelGrainMarginThickness);
+    fprintf("  Fuel grain length: %.1f cm\n", 1e2*opts.FuelGrainLength);
+    fprintf("  Fuel grain port diameter: %.1f cm\n", 1e2*opts.FuelGrainPortRadius*2);
     fprintf("  Isp: %.1f s\n", opts.Isp);
     fprintf("  Nozzle expansion pressure: %.1f atm\n", opts.ExpansionPressure / 101300);
     fprintf("  Mass flow: %.1f kg/s\n", opts.MassFlow);
@@ -25,19 +26,19 @@ function outputOpts(opts)
     fprintf("      Sigma: %.1f [MPa]\n", opts.CombustionChamberSigma/1e6);
     fprintf("      Safety margin: %.1fx\n", opts.CombustionChamberSafetyMargin);
     
-    fprintf("Dimensions:\n");
+    fprintf("Dimensions (assumed pressure vessels with hemispherical ends):\n");
     fprintf("  Oxidizer tank:\n");
     fprintf("    Radius: %.2f cm\n", 1e2*opts.OxidizerTankRadius);
     fprintf("    Diameter: %.2f cm\n", 1e2*opts.OxidizerTankDiameter);
     fprintf("    Thickness: %.2f mm\n", 1e3*opts.OxidizerTankWallThickness);
-    fprintf("    Length: %.2f cm\n", 1e2*opts.OxidizerTankLength);
+    fprintf("    Length (cylinder part): %.2f cm\n", 1e2*opts.OxidizerTankLength);
     fprintf("    Volume: %.2f l\n", 10*10*10*opts.OxidizerVolume);
     fprintf("    Mass: %.2f kg\n", opts.OxidizerTankMass);
     fprintf("  Combustion chamber:\n");
     fprintf("    Radius: %.2f cm\n", 1e2*opts.CombustionChamberRadius);
     fprintf("    Diameter: %.2f cm\n", 1e2*opts.CombustionChamberDiameter);
     fprintf("    Thickness: %.2f mm\n", 1e3*opts.CombustionChamberWallThickness);
-    fprintf("    Length: %.2f cm\n", 1e2*opts.CombustionChamberLength);
+    fprintf("    Length (cylinder part): %.2f cm\n", 1e2*opts.CombustionChamberLength);
     fprintf("    Volume: %.2f l\n", 10*10*10*opts.FuelVolume);
     fprintf("    Mass: %.2f kg\n", opts.CombustionChamberMass);
     
