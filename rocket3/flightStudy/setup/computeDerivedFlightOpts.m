@@ -99,13 +99,13 @@ function opts = computeDerivedFlightOpts(opts)
    
     % Compute mass properties
     opts.FixedEngineMass = 7;
-    engineMass = opts.FixedEngineMass + ccMass;
+    engineMass = opts.FixedEngineMass + ccMass + opts.FuelMarginMass;
     dryMass = opts.NonEngineDryMass + oxTankMass + engineMass;
     wetMass = opts.PropellantMass + dryMass;
     
     opts.EngineMass = engineMass;
     opts.WetMass = wetMass;
-    opts.DryMass = dryMass + opts.FuelMarginMass;
+    opts.DryMass = dryMass;
     
     % opts.PropellantMass = opts.WetMass - opts.DryMass;
     opts.BurnTime = opts.PropellantMass / opts.MassFlow;

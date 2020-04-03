@@ -13,9 +13,20 @@ ofRatio = 8;
 
 massFlow = 2.5; % Total mass flow of usable propellant
 
+
+% layers from the outside to inside, in millimeters
+fiberGlass = 0;
+empty = 0;
+aluminium = 3;
+cardboard = 1;
+margin = 8;
+
+totalMargin = fiberGlass + empty  + aluminium + cardboard + margin;
+usableSpace = 150 - 2*(totalMargin);
+
 combustionChamberDiameterCm = 15;
-fuelGrainLengthCm = 33;
-fuelGrainMarginThicknessMm = 8;
+fuelGrainLengthCm = 44;
+fuelGrainMarginThicknessMm = totalMargin;
 fuelGrainCenterPortDiameterCm = 5;
 
 diameterOfNozzleExhaustInCentimeters = 8;

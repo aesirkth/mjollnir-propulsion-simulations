@@ -1,3 +1,7 @@
 *.asv
 *.m~
 rocket3/flightStudy/plots/
+
+rocket3/flightStudy/fuelGrain.png
+
+rocket3/flightStudy/fullSystem.png

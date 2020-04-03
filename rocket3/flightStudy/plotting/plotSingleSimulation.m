@@ -2,7 +2,7 @@ function plotSingleSimulation(flightOpts, t, State)
     r = State(:, 1:2);
     v = State(:, 3:4);
     
-    goalKm = 12;
+    goalKm = 14;
 
     altitude = r(:,2);
     vMag = vecnorm(v');

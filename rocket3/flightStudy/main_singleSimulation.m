@@ -48,13 +48,12 @@ hold on
 
 ir = r-t;
 
-subplot(1,2,1);
 hold on
 axis equal
 
 offset = r;
 fill([r ir ir r], [0 0 L L]+offset, 'r', 'HandleVisibility', 'off')
-fill(-[r ir ir r], [0 0 L L]+offset, 'r', 'DisplayName', 'Unusable fuel (margin)');
+fill(-[r ir ir r], [0 0 L L]+offset, 'r', 'HandleVisibility', 'off');
 fill([pr ir ir pr], [0 0 L L]+offset, 'g', 'HandleVisibility', 'off')
 fill(-[pr ir ir pr], [0 0 L L]+offset, 'g', 'DisplayName', 'Usable fuel');
 plot(X, Y+r,  'm', 'LineWidth', 2, 'DisplayName', 'Combustion Chamber');
@@ -63,14 +62,18 @@ lims = ylim;
 ylim([lims(1)-r lims(2)+r])
 title("Combustion chamber (under assumptions)");
 
-legend('show')
+legend('show', 'location', 'southoutside')
+xlabel("x [m]");
+ylabel("y [m]");
 
-subplot(1,2,2);
+storeCapsule("./fuelGrain");
+
+clf
 hold on
 axis equal
 
 fill([r ir ir r], [0 0 L L]+offset, 'r', 'HandleVisibility', 'off')
-fill(-[r ir ir r], [0 0 L L]+offset, 'r', 'DisplayName', 'Unusable fuel (margin)');
+fill(-[r ir ir r], [0 0 L L]+offset, 'r', 'HandleVisibility', 'off');
 fill([pr ir ir pr], [0 0 L L]+offset, 'g', 'HandleVisibility', 'off')
 fill(-[pr ir ir pr], [0 0 L L]+offset, 'g', 'DisplayName', 'Usable fuel');
 plot(X, Y+r,  'm', 'LineWidth', 2, 'DisplayName', 'Combustion Chamber');
@@ -85,7 +88,11 @@ plot(X, Y+offset, 'r', 'LineWidth', 2, 'DisplayName', 'Oxidizer tank');
 lims = ylim;
 ylim([lims(1)-r lims(2)+r])
 title("Full system (under assumptions)");
-legend('show')
+legend('show', 'location', 'southoutside')
+xlabel("x [m]");
+ylabel("y [m]");
+
+storeCapsule("./fullSystem");
 
 function [X, Y] = renderCapsuleTank(d, L)
     N = 50;
@@ -110,4 +117,27 @@ function [X, Y] = renderCapsuleTank(d, L)
     
     X(end) = X(1);
     Y(end) = Y(1);
+end
+
+function storeCapsule(name)
+    [dir] = fileparts(name);
+    if ~exist(dir, 'dir')
+      mkdir(dir)
+    end
+    
+    x = 0;
+    y = 0;
+    w = 500;
+    h = 800;
+    
+    axis tight
+    set(gcf,'Resize','off')
+    set(gcf,'Position',[x y w h])
+    set(gca,'FontSize',14)
+    
+    drawnow
+    %saveas(gcf,sprintf('%s.svg', name))
+    saveas(gcf,sprintf('%s.png', name))
+    
+    fprintf("Saved to %s.png\n", name);
 end
