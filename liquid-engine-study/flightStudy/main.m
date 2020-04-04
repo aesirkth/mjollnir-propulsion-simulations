@@ -1,3 +1,5 @@
+run setup.m;
+
 close all
 clf
 clear
@@ -24,7 +26,7 @@ chosenMassFlow = 0.6;
 optimizeRadius = 1;
 print = 1;
 
-propellantMass = 12;
+propellantMass = 7;
 optimalSkinninessRatio = 15;
 
 tankMassFactor = 1.35e-5; % rho / sigma
@@ -32,7 +34,7 @@ tankMassFactor = 1.35e-5; % rho / sigma
 presTankPressure = 35e6;
 tankPressure = 5e6;
 
-payloadMass = 2;
+payloadMass = 5;
     
 fuelDensity = 789;
 oxidDensity = 1230;
