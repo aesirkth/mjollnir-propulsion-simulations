@@ -1,15 +1,40 @@
-function plotSingleSimulation(flightOpts, t, State)
+function plotSingleSimulation(flightOpts, t, State, te)
+    
+    %% State derived values
     r = State(:, 1:2);
     v = State(:, 3:4);
-
     altitude = r(:,2);
     vMag = vecnorm(v');
     acceleration = gradient(vMag, t);
-    propellantMass = State(:, 5);
+    oxidizerMass = State(:,5);
+    fuelMass = State(:,6);
+    propellantMass = oxidizerMass + fuelMass;
+    portRadius = State(:,7);
+    ccPressure = State(:,8);
+    
+    %% State derivative derived values
+    dStatedt = 0*State;
+    
+    Thrust = dStatedt(:,1);
+    oxidizerMassFlow = dStatedt(:,1);
+    fuelMassFlow = dStatedt(:,1);
+    regressionRate = dStatedt(:,1);
+    ccTemperature = dStatedt(:,1);
+    dStatedt = dStatedt';
+    for i=1:length(t)
+        [dStatedt(:,i),regressionRate(i),~,oxidizerMassFlow(i),fuelMassFlow(i),Thrust(i),ccTemperature(i)] = flightModel(t(i),State(i,:)',flightOpts);
+    end
+    dStatedt = dStatedt';
+    regressionRate = dStatedt(:,7);
 
-    burnOutIndex = find(max(0, t - flightOpts.BurnTime), 1);
+    %% Events indexes
+    burnOutIndex = find(t-te(1)>0);
+    burnOutIndex = burnOutIndex(1);
     [~, apogeeIndex] = max(altitude);
 
+    
+    %% Plots
+    figure('Name','Flight results')
     setupSubplots(4,3);
 
     nextPlot();
@@ -170,5 +195,58 @@ function plotSingleSimulation(flightOpts, t, State)
     legend('show', 'Location', 'best');
     grid on
     scaleLims(0.1);
+    
+    figure('Name','Combustion results')
+    setupSubplots(3,2)
+    nextPlot()
+    plot(t,regressionRate*1000)
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('Regression Rate [mm/s]')
+    title('Regression Rate over time')
+    grid('on')
+    
+    nextPlot()
+    plot(t,portRadius*1000)
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('Port Radius [mm]')
+    title('Port Radius over time')
+    grid('on')
+    
+    nextPlot()
+    
+    plot(t,ccPressure/1e6)
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('CC Pressure [MPa]')
+    title('Combustion Chamber pressure over time')
+    grid('on')
+    
+    nextPlot()
+    OF = oxidizerMassFlow ./ fuelMassFlow;
+    plot(t,OF)
+    xlim([0 t(burnOutIndex)]);
+    ylim([0 max(OF)]);
+    xlabel('Time [s]')
+    ylabel('O/F ratio [MPa]')
+    title('O/F ratio over time')
+    grid('on')
+    
+    nextPlot()
+    plot(t,Thrust/1000)
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('Thrust [kN]')
+    title('Thrust over time')
+    grid('on')
+    
+    nextPlot()
+    plot(t,ccTemperature)
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('CC Temperature [K]')
+    title('Combustion Chamber Temperature over time')
+    grid('on')
 end
 
