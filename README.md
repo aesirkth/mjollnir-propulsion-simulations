@@ -1,2 +1,3 @@
-# propulsion-simulations
-A collection of various propulsion simulation software written for the projects of ÆSIR
+# Mjollnir Propulsion Simulations
+
+A collection of simulations done for the propulsion system of the Mjollnir project.
