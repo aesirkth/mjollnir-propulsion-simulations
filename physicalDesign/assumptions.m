@@ -10,4 +10,3 @@ opts.OxidizerTankSafetyMargin = safetyMargin
 opts.ccDensity  = density;
 opts.ccSigma  = sigma;
 opts.ccSafetyMargin = safetyMargin;
-opts.ccInitialPressure = 101325;

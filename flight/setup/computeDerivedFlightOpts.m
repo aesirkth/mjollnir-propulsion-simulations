@@ -7,16 +7,6 @@ function opts = computeDerivedFlightOpts(opts)
     run 'injectors_data_input.m';
     run 'combustion_data_input.m';
     
-    
-    opts.OxidizerMass = opts.PropellantMass * ofRatio / (ofRatio + 1);
-    opts.FuelMass = opts.PropellantMass * (1) / (ofRatio + 1);
-    
-    % Carbon additive impacts on fuel density
-    opts.FuelDensity = opts.ParafinDensity * (1 - opts.carbonAdditiveFraction) + opts.CarbonDensity * opts.carbonAdditiveFraction;
-    
-    opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
-    opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
-    
     % Define capsuleTank: capsuleTank(Volume, Diameter, Pressure, Sigma (allowable stress), rho, safety margin);
     [oxTankMass, oxTankLength, oxTankWallThickness, oxTankMassCheck, oxTankWallThicknessCheck] = capsuleTank(opts.OxidizerVolume, opts.OxidizerTankDiameter, opts.OxidizerTankPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, opts.OxidizerTankSafetyMargin);
     [ccMass, ccLength, ccWallThickness, ccMassCheck, ccWallThicknessCheck] = capsuleTank(opts.FuelVolume, opts.ccDiameter, opts.ccCombustionPressure, opts.ccSigma, opts.ccDensity, opts.ccSafetyMargin);

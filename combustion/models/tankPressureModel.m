@@ -1,3 +1,4 @@
 function pressure = tankPressureModel(t,oxidizerMass,opts)
-pressure = opts.OxidizerTankPressure * max(1 - 0.2*(1-oxidizerMass/opts.OxidizerMass),0.8);
+  factor = max(1 - opts.OxidizerTankPressureDrop*(1-oxidizerMass/opts.OxidizerMass), 1 - opts.OxidizerTankPressureDrop);
+  pressure = opts.OxidizerTankPressure * factor;
 end
