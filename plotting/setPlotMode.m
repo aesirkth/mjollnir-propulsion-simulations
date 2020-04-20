@@ -1,10 +1,13 @@
 function setPlotMode(mode) 
   global storeFiguresToFile;
 
-  if mode == "save"
+  close all
+  clf
+  if strcmp(mode, "save")
     set(gcf,'Resize','off')
     storeFiguresToFile = 1;
-  else if mode == "show"
+  end
+  if strcmp(mode, "show")
     set(gcf,'Resize','on')
     storeFiguresToFile = 0;
   end

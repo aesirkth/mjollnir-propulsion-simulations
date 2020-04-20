@@ -3,8 +3,6 @@ addpath('./properties');
 addpath('./system');
 addpath('../plotting');
 
-setPlotMode("show");
-% setPlotMode("store");
 
 opts = struct()
 run("./assumptions");
@@ -26,12 +24,12 @@ ccPressure = state(:, 4);
 propellantMass = oxidizerMass + fuelMass;
 
 N = length(t);
-regressionRate = zeros(1, N);
-ccPressureVariation = zeros(1, N);
-oxidizerMassFlow = zeros(1, N);
-fuelMassFlow = zeros(1, N);
-thrust = zeros(1, N);
-ccTemperature = zeros(1, N);
+regressionRate = zeros(N,1);
+ccPressureVariation = zeros(N,1);
+oxidizerMassFlow = zeros(N,1);
+fuelMassFlow = zeros(N,1);
+thrust = zeros(N,1);
+ccTemperature = zeros(N,1);
 for i = 1:N
   [~,regressionRate(i),ccPressureVariation(i),oxidizerMassFlow(i),fuelMassFlow(i),thrust(i),ccTemperature(i)] = model(t(i),state(i,:)');
 end
@@ -39,6 +37,8 @@ end
 combustionState = struct(...
     'time', t, ...
     'burnTime', burnTime, ...
+    'residualFuelMass', fuelMass(end), ...
+    'residualOxidizerMass', oxidizerMass(end), ...
     'oxidizerMass', oxidizerMass, ...
     'fuelMass', fuelMass, ...
     'propellantMass', propellantMass, ...
@@ -53,6 +53,9 @@ combustionState = struct(...
 );
 
 clearvars -except combustionState
+
 %%
-figure(1);
+%setPlotMode("save");
+setPlotMode("show");
 run("./createPlots");
+combustionState

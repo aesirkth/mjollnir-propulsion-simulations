@@ -30,7 +30,7 @@ end
 burnOutIndex = burnOutIndex(1);
 
 setupSubplots(3,2)
-nextPlot('')
+nextPlot('regressionRate')
 plot(t,combustionState.regressionRate*1000)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -38,7 +38,7 @@ ylabel('Regression Rate [mm/s]')
 title('Regression Rate over time')
 grid('on')
 
-nextPlot('')
+nextPlot('portRadius')
 plot(t,combustionState.portRadius*1000)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -46,7 +46,7 @@ ylabel('Port Radius [mm]')
 title('Port Radius over time')
 grid('on')
 
-nextPlot('')
+nextPlot('combustionPressure')
 plot(t,combustionState.ccPressure/1e6)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -54,7 +54,7 @@ ylabel('CC Pressure [MPa]')
 title('Combustion Chamber pressure over time')
 grid('on')
 
-nextPlot('')
+nextPlot('ofRatio')
 OF = combustionState.oxidizerMassFlow ./ combustionState.fuelMassFlow;
 plot(t,OF)
 xlim([0 t(burnOutIndex)]);
@@ -64,7 +64,7 @@ ylabel('O/F ratio [MPa]')
 title('O/F ratio over time')
 grid('on')
 
-nextPlot('')
+nextPlot('thrust')
 plot(t,combustionState.thrust/1000)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -72,7 +72,7 @@ ylabel('Thrust [kN]')
 title('Thrust over time')
 grid('on')
 
-nextPlot('')
+nextPlot('combustionTemperature')
 plot(t,combustionState.ccTemperature)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
