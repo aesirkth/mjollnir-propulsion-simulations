@@ -67,4 +67,4 @@ clearvars -except combustionState
 setPlotMode("show");
 run("./createPlots");
 
-combustionState
+clearvars -except combustionState
