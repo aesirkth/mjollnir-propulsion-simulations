@@ -1,7 +1,14 @@
 % Compute thrust as function of mass flow, ambient pressure and other things
-function thrust = thrustModel(t, massFlow, ambientPressure, opts)
-    pressureCutoffEpsilon = 1e-1; % The mass flow for when we set thrust to 0
-    pressureFactor = min(pressureCutoffEpsilon, massFlow) / pressureCutoffEpsilon;
-    thrustForce = opts.Isp * 9.8066 * massFlow + pressureFactor*(opts.ExpansionPressure - ambientPressure) * opts.ExhaustArea;
-    thrust = thrustForce;
+function thrust = thrustModel(t, massFlow, ccPressure, ambientPressure, cStar, opts)
+    func = @(M) opts.NozzleExhaustArea / opts.NozzleThroatArea - 1/M*...
+        (2/(opts.Gamma+1)*(1+(opts.Gamma-1)/2*M^2))^((opts.Gamma+1)/2/(opts.Gamma-1));
+
+    Me = fzero(func,1.5);
+    pe = ccPressure*(1+(opts.Gamma-1)/2*Me^2)^(opts.Gamma/(1-opts.Gamma));
+    Cs = sqrt(2*opts.Gamma^2/(opts.Gamma-1)*(2/(opts.Gamma+1))^...
+        ((opts.Gamma+1)/(opts.Gamma-1))*...
+        (1-(pe/ccPressure)^((opts.Gamma-1)/opts.Gamma)))+...
+        (pe-ambientPressure)/ccPressure*opts.NozzleExhaustArea/opts.NozzleThroatArea;
+    Cs = max([Cs 0]);
+    thrust = massFlow * cStar * Cs;
 end

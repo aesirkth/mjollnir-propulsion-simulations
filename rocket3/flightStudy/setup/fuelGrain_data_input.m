@@ -1,0 +1,10 @@
+opts.ParafinDensity = 900;
+opts.CarbonDensity = 1800;
+opts.CarbonFraction = 0.01;
+opts.ccDiameter = 0.075;
+opts.ccDensity  = 2700;
+opts.ccSigma  = 290*10^6/2;             % allowable stress: half of transile strength (assumption)
+opts.PortLength = 0.3;                  % Port length
+opts.initialPortRadius = 0.032;          % Initial port radius
+opts.ccSafetyMargin = 1.5;
+opts.ccInitialPressure = 101325;

@@ -1,10 +1,18 @@
 function opts = computeDerivedFlightOpts(opts)
     
     % Get input parameters
-    run 'capsuleTank_data_input.m'
+    run 'oxidizerTank_data_input.m';
+    run 'fuelGrain_data_input.m';
+    run 'nozzle_data_input.m';
+    run 'injectors_data_input.m';
+    run 'combustion_data_input.m';
+    
     
     opts.OxidizerMass = opts.PropellantMass * ofRatio / (ofRatio + 1);
     opts.FuelMass = opts.PropellantMass * (1) / (ofRatio + 1);
+    
+    % Carbon additive impacts on fuel density
+    opts.FuelDensity = opts.ParafinDensity * (1 - opts.CarbonFraction) + opts.CarbonDensity * opts.CarbonFraction;
     
     opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
     opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
@@ -21,7 +29,8 @@ function opts = computeDerivedFlightOpts(opts)
     opts.FuelGrainLength = ccLength;
     opts.ccWallThickness = ccWallThickness;
     opts.ccWallThicknessCheck = ccWallThicknessCheck;    
-   
+    
+    
     engineMass = 6;
     dryMass = opts.PayloadMass + oxTankMass + ccMass + engineMass;
     wetMass = opts.PropellantMass + dryMass;
@@ -35,7 +44,6 @@ function opts = computeDerivedFlightOpts(opts)
     opts.DryMass = dryMass;
     
     % opts.PropellantMass = opts.WetMass - opts.DryMass;
-    opts.BurnTime = opts.PropellantMass / opts.MassFlow;
-    opts.ExhaustArea = (opts.ExhaustDiameter / 2)^2*pi;
-    opts.Thrust = 9.80665 * opts.Isp * opts.MassFlow;
+    opts.NozzleExhaustArea = opts.NozzleExhaustDiameter^2/4*pi;
+    opts.NozzleThroatArea = opts.NozzleThroatDiameter^2/4*pi;
 end

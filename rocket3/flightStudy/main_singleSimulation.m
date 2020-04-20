@@ -5,24 +5,24 @@ setup();
 run assumptions
 
 
-% Set the mass flow to simulate
-massFlow = 2.5;
-
 flightOpts = computeDerivedFlightOpts(struct( ...
     'PayloadMass', payloadMass, ...
     'PropellantMass', propellantMass, ...
     'Radius', (rocketDiameterInCentimeters/100)/2, ...
-    'ExpansionPressure', expansionPressureInAtmospheres * 101300, ...
     'ExhaustDiameter', diameterOfNozzleExhaustInCentimeters / 100, ...
-    'Isp', specificImpulse,  ...
-    'MassFlow', massFlow,  ...
     'LaunchAngle', launchAngle ...
 ))
 
 %%
 model = @(t, y) flightModel(t, y, flightOpts);
-
+r0 = [0 0]; V0 = [0 0];
+initialState = [r0 V0 flightOpts.OxidizerMass flightOpts.FuelMass flightOpts.initialPortRadius,flightOpts.ccInitialPressure];
 odeOpts = odeset('Events', @flightModelEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
-[t, State] = ode45(model, [0 500], [0 0 0 0 flightOpts.PropellantMass], odeOpts);
-
-plotSingleSimulation(flightOpts, t, State);
+disp('Computing ...')
+Start = cputime();
+[t, State,te,ye,ie] = ode45(model, [0 500], initialState, odeOpts);
+End = cputime();
+Duration = End - Start;
+disp(['Computation done ! Duration : ' num2str(Duration) ' s'])
+disp('Plotting results ...')
+plotSingleSimulation(flightOpts, t, State,te);
