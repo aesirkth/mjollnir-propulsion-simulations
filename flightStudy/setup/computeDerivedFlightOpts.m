@@ -12,7 +12,7 @@ function opts = computeDerivedFlightOpts(opts)
     opts.FuelMass = opts.PropellantMass * (1) / (ofRatio + 1);
     
     % Carbon additive impacts on fuel density
-    opts.FuelDensity = opts.ParafinDensity * (1 - opts.CarbonFraction) + opts.CarbonDensity * opts.CarbonFraction;
+    opts.FuelDensity = opts.ParafinDensity * (1 - opts.carbonAdditiveFraction) + opts.CarbonDensity * opts.carbonAdditiveFraction;
     
     opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
     opts.FuelVolume = opts.FuelMass / opts.FuelDensity;
@@ -44,6 +44,4 @@ function opts = computeDerivedFlightOpts(opts)
     opts.DryMass = dryMass;
     
     % opts.PropellantMass = opts.WetMass - opts.DryMass;
-    opts.NozzleExhaustArea = opts.NozzleExhaustDiameter^2/4*pi;
-    opts.NozzleThroatArea = opts.NozzleThroatDiameter^2/4*pi;
 end
