@@ -10,12 +10,17 @@ run("./derivedProperties");
 run("../nozzle/assumptions");
 run("../nozzle/derivedProperties");
 
+
 model = @(t, y) odeSystem(t, y, opts);
 initialState = [opts.OxidizerMass, opts.FuelMass, opts.FuelGrainInitialPortRadius, opts.ccInitialPressure];
 odeOpts = odeset('Events', @odeSystemEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
 [t, state,te,ye,ie] = ode45(model, [0 50], initialState, odeOpts);
 
-burnTime = te(1);
+if isempty(te)
+    burnTime = t;
+else
+    burnTime = te(1);
+end
 oxidizerMass = state(:, 1);
 fuelMass = state(:, 2);
 portRadius = state(:, 3);
@@ -34,8 +39,10 @@ for i = 1:N
   [~,regressionRate(i),ccPressureVariation(i),oxidizerMassFlow(i),fuelMassFlow(i),thrust(i),ccTemperature(i)] = model(t(i),state(i,:)');
 end
 
+%%
 combustionState = struct(...
     'time', t, ...
+    'opts', opts, ...
     'burnTime', burnTime, ...
     'residualFuelMass', fuelMass(end), ...
     'residualOxidizerMass', oxidizerMass(end), ...
@@ -55,7 +62,9 @@ combustionState = struct(...
 clearvars -except combustionState
 
 %%
+
 %setPlotMode("save");
 setPlotMode("show");
 run("./createPlots");
+
 combustionState

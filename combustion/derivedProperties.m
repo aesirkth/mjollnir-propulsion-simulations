@@ -3,17 +3,18 @@ opts.CombustionChamberRadius = opts.CombustionChamberDiameter / 2;
 opts.CombustionChamberWallThickness = opts.CombustionChamberWallThicknessInMm / 1000;
 opts.FuelGrainContainerWallThickness = opts.FuelGrainContainerWallThicknessInMm / 1000;
 opts.FuelGrainInitialPortRadius = opts.FuelGrainInitialPortRadiusInCm / 100;
+opts.UnusableFuelMarginThickness = opts.UnusableFuelMarginThicknessInCm / 100;
 
-opts.TotalFuelGrainRadius = opts.CombustionChamberRadius - opts.CombustionChamberWallThickness;
-opts.UsableFuelGrainRadius = opts.CombustionChamberRadius - opts.CombustionChamberWallThickness - opts.FuelGrainContainerWallThickness;
+opts.TotalFuelGrainRadius = opts.CombustionChamberRadius - opts.CombustionChamberWallThickness - opts.FuelGrainContainerWallThickness;
+opts.UsableFuelGrainRadius = opts.TotalFuelGrainRadius - opts.UnusableFuelMarginThickness;
 
 opts.FuelGrainLength = opts.FuelGrainLengthInCm / 100;
 
 % Carbon additive impacts on fuel density
 opts.FuelGrainDensity = opts.FuelDensity * (1 - opts.CarbonAdditiveFraction) + opts.CarbonDensity * opts.CarbonAdditiveFraction;
 
-opts.TotalFuelVolume = (opts.UsableFuelGrainRadius/2)^2 * pi - opts.FuelGrainInitialPortRadius^2 * pi * opts.FuelGrainLength;
-opts.FuelVolume = (opts.UsableFuelGrainRadius/2)^2 * pi - opts.FuelGrainInitialPortRadius^2 * pi * opts.FuelGrainLength;
+opts.TotalFuelVolume = ((opts.TotalFuelGrainRadius)^2 * pi - opts.FuelGrainInitialPortRadius^2 * pi)* opts.FuelGrainLength;
+opts.FuelVolume = ((opts.UsableFuelGrainRadius)^2 * pi - opts.FuelGrainInitialPortRadius^2 * pi) * opts.FuelGrainLength;
 opts.UnusableFuelVolume = opts.TotalFuelVolume - opts.FuelVolume;
 
 opts.TotalFuelMass = opts.TotalFuelVolume * opts.FuelGrainDensity;
