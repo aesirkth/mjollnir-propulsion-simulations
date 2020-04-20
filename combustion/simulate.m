@@ -4,7 +4,7 @@ addpath('./system');
 addpath('../plotting');
 
 
-opts = struct()
+opts = struct();
 run("./assumptions");
 run("./derivedProperties");
 run("../nozzle/assumptions");
@@ -35,8 +35,9 @@ oxidizerMassFlow = zeros(N,1);
 fuelMassFlow = zeros(N,1);
 thrust = zeros(N,1);
 ccTemperature = zeros(N,1);
+tankPressure = zeros(N,1);
 for i = 1:N
-  [~,regressionRate(i),ccPressureVariation(i),oxidizerMassFlow(i),fuelMassFlow(i),thrust(i),ccTemperature(i)] = model(t(i),state(i,:)');
+  [~,regressionRate(i),ccPressureVariation(i),oxidizerMassFlow(i),fuelMassFlow(i),thrust(i),ccTemperature(i),tankPressure(i)] = model(t(i),state(i,:)');
 end
 
 %%
@@ -56,7 +57,8 @@ combustionState = struct(...
     'oxidizerMassFlow', oxidizerMassFlow, ...
     'fuelMassFlow', fuelMassFlow, ...
     'thrust', thrust, ...
-    'ccTemperature', ccTemperature ...
+    'ccTemperature', ccTemperature, ...
+    'tankPressure', tankPressure ...
 );
 
 clearvars -except combustionState

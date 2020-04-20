@@ -1,4 +1,4 @@
-function [regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,cStar,ccTemperature] = combustionModel(t,portRadius,ccPressure,oxidizerMass,opts)
+function [regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,cStar,ccTemperature, tankPressure] = combustionModel(t,portRadius,ccPressure,oxidizerMass,opts)
 if oxidizerMass > 0
     
     % Tank pressure of the instant
@@ -25,6 +25,7 @@ if oxidizerMass > 0
     ccPressureVariation = (8.314 / opts.ProductsMolecularWeight) * ccTemperature * dRho1;
     
 else
+    tankPressure = tankPressureModel(t,0,opts);
     ccPressureVariation = 0;
     oxidizerMassFlow = 0;
     regressionRate = 0;

@@ -62,7 +62,8 @@ grid('on')
 nextPlot('combustionPressure')
 plot(t,combustionState.ccPressure/1e6', 'HandleVisibility','off')
 hold on
-plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]/1e6, '--', 'DisplayName', 'Chamber design pressure')
+plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
+plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]*combustionState.opts.ccCombustionPressureSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
 ylabel('CC Pressure [MPa]')
@@ -97,20 +98,29 @@ ylabel('CC Temperature [K]')
 title('Combustion Chamber Temperature over time')
 grid('on')
 
-nextPlot('oxidizerMass')
-plot(t,combustionState.oxidizerMass)
+nextPlot('tankPressure')
+plot(t,combustionState.tankPressure/1e6, 'HandleVisibility','off')
+hold on;
+plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
+plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
-ylabel('Oxidizer mass [kg]')
-title('Oxidizer mass over time')
+ylabel('Oxidizer tank pressure [MPa]')
+title('Oxidizer tank pressure over time')
+legend('show', 'Location', 'best');
+scaleLims(0.1);
 grid('on')
 
-nextPlot('fuelMass')
-plot(t,combustionState.fuelMass)
+nextPlot('mass')
+plot(t,combustionState.fuelMass, 'LineWidth', 2, 'DisplayName', 'Fuel')
+hold on
+plot(t,combustionState.oxidizerMass, 'LineWidth', 2, 'DisplayName', 'Oxidizer')
+plot(t,combustionState.fuelMass + combustionState.oxidizerMass, 'LineWidth', 2, 'DisplayName', 'Total')
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
-ylabel('Fuel mass [kg]')
-title('Fuel mass over time')
+ylabel('Mass [kg]')
+title('Propellant mass over time')
+legend('show', 'Location', 'best');
 grid('on')
 
 nextPlot('massFlow')
