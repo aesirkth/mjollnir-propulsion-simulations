@@ -2,18 +2,16 @@ clear
 clc
 
 ofRatio = 8;
-massFlow = 2.5;
-fuelMassFlow = massFlow / (ofRatio + 1);
-oxidizerMassFlow = massFlow * ofRatio / (ofRatio + 1);
+oxidizerMassFlow = 2.1425; %massFlow * ofRatio / (ofRatio + 1);
 
-diameterCm = 4;
-finalDiameterCm = 12;
+diameterCm = 5;
+finalDiameterCm = 13;
 r0 = ( diameterCm / 2 ) / 1e2;
 rFinal = ( finalDiameterCm / 2 ) / 1e2;
 
 n = 0.5;
 aUnit = 1e-3; %% in mm
-a = 0.155 * aUnit;
+a = 15.5e-5;
 % 
 % G = @(r) oxidizerMassFlow / (pi * r*r);
 % rdot = @(r) a .* G(r).^n;
@@ -36,7 +34,7 @@ p1 = p0 * 0.85;
 deltaP = p0 - pCombustion;
 CdA = oxidizerMassFlow / sqrt(2 * rhoOxidizer * deltaP);
 
-fuelGrainLength = 0.38; % meters
+fuelGrainLength = 0.37; % meters
 fuelVolume = (pi*rFinal^2 - pi*r0^2) * fuelGrainLength;
 fuelMass = fuelVolume * rhoFuel;
 propellantMass = fuelMass * (1 + ofRatio);
@@ -56,30 +54,60 @@ ode = @(t, S) odeFn(t, S, S0, vars);
 
 [r, oxidizerMass, fuelMass, rdot, oxidizerConsumedFraction, tankPressure, combustionPressure, oxidizerFlow, fuelFlow, totalFlow, outputRatio] = system(t, S, S0, vars);
 
+oxidizerFlow(end)
+fuelFlow(end)
+
 clf
 subplot(3,2,1);
-plot(t, oxidizerMass)
+plot(t, oxidizerMass, 'LineWidth', 2, 'DisplayName', 'oxidizer')
 hold on
-plot(t, fuelMass)
+plot(t, fuelMass, 'LineWidth', 2, 'DisplayName', 'fuel')
+xlabel("time (s)");
+ylabel("mass (kg)");
 title("Mass over time");
+legend('show', 'location', 'best');
+grid on
 
 subplot(3,2,2);
-plot(t, tankPressure)
+plot(t, tankPressure / 1e6, 'LineWidth', 2, 'DisplayName', 'Tank pressure')
 hold on
-plot(t, combustionPressure)
+plot(t, combustionPressure / 1e6, 'LineWidth', 2, 'DisplayName', 'Combustion pressure')
 title("Pressures over time");
+xlabel("time (s)");
+ylabel("pressure (MPa)");
+legend('show', 'location', 'best');
+grid on
 
 subplot(3,2,3);
-plot(t, 2*r*1e3)
+plot(t, 2*r*1e3,  'LineWidth', 2)
+xlabel("time (s)");
+ylabel("diameter (mm)");
 title("Port diameter (mm)");
+grid on
 
 subplot(3,2,4);
-plot(t, oxidizerFlow)
+plot(t, oxidizerFlow, '-', 'LineWidth', 2, 'DisplayName', 'oxidizer')
 hold on
-plot(t, fuelFlow)
+plot(t, fuelFlow, '-', 'LineWidth', 2, 'DisplayName', 'fuel')
+hold on
+plot(t, oxidizerFlow + fuelFlow, '--', 'LineWidth', 2, 'DisplayName', 'total')
+grid on
+xlabel("time (s)");
+ylabel("flow (kg/s)");
+legend('show', 'location', 'best');
+title("Mass flow");
 
 subplot(3,2,5);
-plot(t, outputRatio)
+plot(t, outputRatio, 'LineWidth', 2, 'DisplayName', 'real')
+hold on
+plot([t(1) t(end)], [ofRatio ofRatio], '--', 'LineWidth', 2, 'DisplayName', 'optimal')
+lims = ylim;
+ylim(lims + [-diff(lims) diff(lims)]*0.1);
+grid on
+xlabel("time (s)");
+ylabel("ratio");
+title("OF ratio");
+legend('show', 'location', 'best');
  
 function dSdt = odeFn(t, S, S0, vs)
     [~, ~, ~, rdot, ~, ~, ~, oxidizerFlow, fuelFlow, ~, ~] = system(t, S', S0, vs);
