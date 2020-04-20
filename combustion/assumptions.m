@@ -12,16 +12,20 @@ opts.ccInitialPressure = 101325;
 opts.FuelDensity = fuelDensity;
 opts.CarbonDensity = carbonAdditiveDensity;
 
-opts.ccDiameter = 0.075;
-opts.PortLength = 0.3;                  % Port length
-opts.initialPortRadius = 0.032;          % Initial port radius
+opts.CombustionChamberDiameterInCm = 15;
+opts.CombustionChamberWallThicknessInMm = 3;
+opts.FuelGrainContainerWallThicknessInMm = 2;
+
+opts.FuelGrainLengthInCm = 30;
+opts.FuelGrainInitialPortRadiusInCm = 3.2;
+
 opts.UnusableFuelMarginThicknessInCm = 1;
 
 [gamma, productsMolecularWeight] = combustionProperties()
 opts.Gamma = gamma;
 opts.ProductsMolecularWeight = productsMolecularWeight;
 
-[dischargeCoefficient, holeDiameterMm, numberOfHoles] = injectorProperties()
+[dischargeCoefficient, holeDiameterMm, numberOfHoles] = injectorProperties();
 opts.InjectorsCd = dischargeCoefficient;
 opts.InjectorsDiameter = holeDiameterMm / 1e3;
 opts.NumberOfInjectors = numberOfHoles;

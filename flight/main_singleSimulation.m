@@ -16,7 +16,7 @@ flightOpts = computeDerivedFlightOpts(struct( ...
 %%
 model = @(t, y) flightModel(t, y, flightOpts);
 r0 = [0 0]; V0 = [0 0];
-initialState = [r0 V0 flightOpts.OxidizerMass flightOpts.FuelMass flightOpts.initialPortRadius,flightOpts.ccInitialPressure];
+initialState = [r0 V0 flightOpts.OxidizerMass flightOpts.FuelMass flightopts.FuelGrainInitialPortRadius,flightOpts.ccInitialPressure];
 odeOpts = odeset('Events', @flightModelEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
 disp('Computing ...')
 Start = cputime();

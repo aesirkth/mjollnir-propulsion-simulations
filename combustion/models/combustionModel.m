@@ -20,7 +20,7 @@ if oxidizerMass > 0
     diffMassFlow = fuelMassFlow+oxidizerMassFlow-nozzleMassFlow;
     
     % Pressure variation from mass variation in the chamber
-    V1 = pi * portRadius^2 * opts.PortLength;
+    V1 = pi * portRadius^2 * opts.FuelGrainLength;
     dRho1 = diffMassFlow / V1;
     ccPressureVariation = (8.314 / opts.ProductsMolecularWeight) * ccTemperature * dRho1;
     
