@@ -1,25 +1,3 @@
-
-% oxidizerMass = state(:,1);
-% fuelMass = state(:,2);
-% propellantMass = oxidizerMass + fuelMass;
-% portRadius = state(:,3);
-% ccPressure = state(:,4);
-% 
-% %% State derivative derived values
-% dStatedt = 0*state;
-% 
-% Thrust = dStatedt(:,1);
-% oxidizerMassFlow = dStatedt(:,1);
-% fuelMassFlow = dStatedt(:,1);
-% regressionRate = dStatedt(:,1);
-% ccTemperature = dStatedt(:,1);
-% dStatedt = dStatedt';
-% for i=1:length(t)
-%     [dStatedt(:,i),regressionRate(i),~,oxidizerMassFlow(i),fuelMassFlow(i),Thrust(i),ccTemperature(i)] = model(t(i),state(i,:)');
-% end
-% dStatedt = dStatedt';
-% regressionRate = dStatedt(:,3);
-
 t = combustionState.time;
 
 %% Events indexes
