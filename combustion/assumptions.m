@@ -1,3 +1,8 @@
+% This file is run in combustionSimulation.m
+% Do not run this file as it is.
+%
+% This file contains assumptions for the combustion simulation of the Eyjafjallajökull hybrid rocket engine.
+
 [oxidizerDensity, oxidizerVaporPressure, fuelDensity, carbonAdditiveDensity] = propellantProperties();
 
 opts.OxidizerDensity = oxidizerDensity;

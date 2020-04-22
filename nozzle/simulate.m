@@ -1,2 +1,0 @@
-run("./assumptions");
-run("./derivedProperties");

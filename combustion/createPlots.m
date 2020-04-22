@@ -30,7 +30,7 @@ end
 burnOutIndex = burnOutIndex(1);
 
 setupSubplots(3,3)
-nextPlot('regressionRate')
+nextPlot('combustion/regressionRate')
 plot(t,combustionState.regressionRate*1000)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -38,7 +38,7 @@ ylabel('Regression Rate [mm/s]')
 title('Regression Rate over time')
 grid('on')
 
-nextPlot('portRadius')
+nextPlot('combustion/portRadius')
 plot(t,combustionState.portRadius*1000, 'HandleVisibility','off')
 hold on
 plot([t(1) t(end)], [combustionState.opts.FuelGrainInitialPortRadius, combustionState.opts.FuelGrainInitialPortRadius]*1e3, '--', 'LineWidth', 2, 'DisplayName', 'Initial port radius')
@@ -59,7 +59,7 @@ legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
 
-nextPlot('combustionPressure')
+nextPlot('combustion/combustionPressure')
 plot(t,combustionState.ccPressure/1e6', 'HandleVisibility','off')
 hold on
 plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
@@ -72,7 +72,7 @@ legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
 
-nextPlot('ofRatio')
+nextPlot('combustion/ofRatio')
 OF = combustionState.oxidizerMassFlow ./ combustionState.fuelMassFlow;
 plot(t,OF)
 xlim([0 t(burnOutIndex)]);
@@ -82,7 +82,7 @@ ylabel('O/F ratio [MPa]')
 title('O/F ratio over time')
 grid('on')
 
-nextPlot('thrust')
+nextPlot('combustion/thrust')
 plot(t,combustionState.thrust/1000)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -90,7 +90,7 @@ ylabel('Thrust [kN]')
 title('Thrust over time')
 grid('on')
 
-nextPlot('combustionTemperature')
+nextPlot('combustion/combustionTemperature')
 plot(t,combustionState.ccTemperature)
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
@@ -98,7 +98,7 @@ ylabel('CC Temperature [K]')
 title('Combustion Chamber Temperature over time')
 grid('on')
 
-nextPlot('tankPressure')
+nextPlot('combustion/tankPressure')
 plot(t,combustionState.tankPressure/1e6, 'HandleVisibility','off')
 hold on;
 plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
@@ -111,7 +111,7 @@ legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
 
-nextPlot('mass')
+nextPlot('combustion/mass')
 plot(t,combustionState.fuelMass, 'LineWidth', 2, 'DisplayName', 'Fuel')
 hold on
 plot(t,combustionState.oxidizerMass, 'LineWidth', 2, 'DisplayName', 'Oxidizer')
@@ -123,7 +123,7 @@ title('Propellant mass over time')
 legend('show', 'Location', 'best');
 grid('on')
 
-nextPlot('massFlow')
+nextPlot('combustion/massFlow')
 plot(t,combustionState.fuelMassFlow, 'LineWidth', 2, 'DisplayName', 'Fuel')
 hold on
 plot(t,combustionState.oxidizerMassFlow, 'LineWidth', 2, 'DisplayName', 'Oxidizer')
