@@ -26,10 +26,12 @@ combustionAssumptions = combustionSimulationAssumptions()
 combustionState = combustionSimulation(combustionAssumptions, nozzleState)
 %%
 figure('Name', 'Combustion');
+%%
 plotCombustion(combustionState);
 %%
 physicalDesignAssumptions = physicalDesignSimulationAssumptions(nozzleState, combustionState)
 physicalDesignState = physicalDesignSimulation(physicalDesignAssumptions, nozzleState, combustionState)
 %%
 figure('Name', 'Physical design');
+%%
 plotPhysicalDesign(physicalDesignState);

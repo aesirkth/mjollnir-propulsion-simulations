@@ -40,8 +40,8 @@ function combustionState = combustionSimulation(opts, nozzleState)
 
   %%
   combustionState = struct();
-  combustionState.time = t;
   combustionState.opts = opts;
+  combustionState.time = t;
   combustionState.burnTime = burnTime;
   combustionState.residualFuelMass = fuelMass(end);
   combustionState.residualOxidizerMass = oxidizerMass(end);
