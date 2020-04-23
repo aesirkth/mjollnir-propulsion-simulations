@@ -38,3 +38,5 @@ opts.ProductsMolecularWeight = productsMolecularWeight;
 opts.InjectorsCd = dischargeCoefficient;
 opts.InjectorsDiameter = holeDiameterMm / 1e3;
 opts.NumberOfInjectors = 20;
+
+opts.CombustionEfficiency = 0.9;

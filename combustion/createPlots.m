@@ -61,11 +61,14 @@ title('O/F ratio over time')
 grid('on')
 
 nextPlot('combustion/thrust')
-plot(t,combustionState.thrust/1000)
+plot(t,combustionState.thrust/1000, 'DisplayName', 'Real thrust (incl. efficiency)')
+hold on
+plot(t,combustionState.idealThrust/1000, 'DisplayName', 'Ideal thrust')
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
 ylabel('Thrust [kN]')
 title('Thrust over time')
+legend('show', 'Location', 'best');
 grid('on')
 
 nextPlot('combustion/combustionTemperature')

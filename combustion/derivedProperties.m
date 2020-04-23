@@ -34,3 +34,5 @@ opts.OxidizerMass = opts.PropellantMass * opts.DesignOFRatio / (opts.DesignOFRat
 opts.OxidizerVolume = opts.OxidizerMass / opts.OxidizerDensity;
 
 opts.InjectorsArea = pi*(opts.InjectorsDiameter/2)^2 * opts.NumberOfInjectors;
+
+opts.ThrustEfficiency = opts.CombustionEfficiency * nozzleState.NozzleEfficiency;

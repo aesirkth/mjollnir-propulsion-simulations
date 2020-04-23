@@ -8,4 +8,6 @@ function nozzleState = nozzleSimulation(opts)
   nozzleState.NozzleExhaustArea = opts.NozzleExhaustArea;
   nozzleState.NozzleThroatArea = opts.NozzleThroatArea;
   nozzleState.NozzleExpansionPressure = opts.NozzleExpansionPressure;
+
+  nozzleState.NozzleEfficiency = opts.NozzleEfficiency;
 end

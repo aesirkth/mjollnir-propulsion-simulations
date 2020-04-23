@@ -54,7 +54,8 @@ function combustionState = combustionSimulation(opts, nozzleState)
   combustionState.ccPressureVariation = ccPressureVariation;
   combustionState.oxidizerMassFlow = oxidizerMassFlow;
   combustionState.fuelMassFlow = fuelMassFlow;
-  combustionState.thrust = thrust;
+  combustionState.idealThrust = thrust;
+  combustionState.thrust = thrust * opts.ThrustEfficiency;
   combustionState.ccTemperature = ccTemperature;
   combustionState.tankPressure = tankPressure;
 end
