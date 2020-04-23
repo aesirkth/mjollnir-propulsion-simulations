@@ -32,21 +32,24 @@ function flightState = flightSimulation(opts, nozzleState, combustionState, phys
     acceleration(i,:) = dXdt(3:4);
   end
 
-  massFlow = movmean(abs(diff(mass) ./ diff(t)), 5);
-  exhaustVelocity = (thrustFactor(1:end-1) ./ (massFlow + (massFlow < 0.5*mean(massFlow)))) .* (massFlow >= 0.5*mean(massFlow));
+  massFlow = movmean(gradient(mass, t), 5);
+  exhaustVelocity = (thrustFactor ./ (massFlow + (massFlow < 0.5*mean(massFlow)))) .* (massFlow >= 0.5*mean(massFlow));
   specificImpulse = exhaustVelocity ./ 9.8066;
 
-  massFlow = [massFlow(1) massFlow']';
-  exhaustVelocity = movmean([exhaustVelocity(1) exhaustVelocity']', 5);
-  specificImpulse = movmean([specificImpulse(1) specificImpulse']', 5);
+  massFlow = [massFlow']';
+  exhaustVelocity = movmean([exhaustVelocity']', 5);
+  specificImpulse = movmean([specificImpulse']', 5);
 
   flightState.time = t;
   flightState.position = state(:, 1:2);
   flightState.downrangeDistance = state(:, 1);
   flightState.altitude = state(:, 2);
-  [~,~,speedOfSound] = atmosphereModel(flightState.altitude);
+  [ambientDensity,ambientPressure,speedOfSound] = atmosphereModel(flightState.altitude);
   flightState.velocity = state(:, 3:4);
   flightState.velocityNorm = vecnorm(state(:, 3:4)')';
+  flightState.speedOfSound = speedOfSound;
+  flightState.ambientDensity = ambientDensity;
+  flightState.ambientPressure = ambientPressure;
   flightState.acceleration = acceleration;
   flightState.accelerationNorm = vecnorm(acceleration')';
   flightState.mach = flightState.velocityNorm ./ speedOfSound';
@@ -59,9 +62,10 @@ function flightState = flightSimulation(opts, nozzleState, combustionState, phys
   flightState.maximumVelocity = max(flightState.velocityNorm);
   flightState.maximumAcceleration = max(flightState.accelerationNorm);
   flightState.maximumMach = max(flightState.mach);
-  flightState.massFlow = massFlow;
+  flightState.massFlow = abs(massFlow);
   flightState.exhaustVelocity = exhaustVelocity;
   flightState.specificImpulse = specificImpulse;
   flightState.dryMass = opts.dryMass;
   flightState.wetMass = opts.wetMass;
+  flightState.propellantMass = mass - opts.dryMass;
 end
