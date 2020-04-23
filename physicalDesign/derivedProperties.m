@@ -46,5 +46,8 @@ opts.ccAllowablePressure = tankAllowablePressure(opts.ccRadius, opts.ccThickness
 
 [ccMass] = cylinderTankMass(opts.ccRadius, combustionState.opts.FuelGrainLength, opts.ccThickness, opts.ccDensity);
 opts.ccMass = ccMass;
+
+[casingMass] = cylinderTankMass(opts.ccRadius - opts.ccThickness, combustionState.opts.FuelGrainLength, combustionState.opts.FuelGrainContainerWallThickness, combustionState.opts.FuelGrainContainerDensity);
+opts.fuelGrainCasingMass = casingMass;
 % [ccMass, ccLength, ccWallThickness, ccMassCheck, ccWallThicknessCheck] = capsuleTank(opts.FuelVolume, opts.ccDiameter, opts.ccCombustionPressure, opts.ccSigma, opts.ccDensity, opts.ccSafetyMargin);
 % opts.ccMinimumThickness = ccWallThickness;

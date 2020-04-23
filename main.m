@@ -6,13 +6,14 @@ path(pathdef);
 addpath('./nozzle');
 addpath('./combustion');
 addpath('./physicalDesign');
+addpath('./flight');
 addpath('./plotting');
 
 %%
 global plotDirectory;
 [dir] = fileparts(mfilename('fullpath'));
-clear dir;
 plotDirectory = fullfile(dir, "/plots");
+clear dir;
 
 %%
 % setPlotMode("save");
@@ -39,3 +40,15 @@ figure('Name', 'Physical design');
 plotPhysicalDesign(physicalDesignState);
 
 %%
+flightAssumptions = flightSimulationAssumptions
+flightState = flightSimulation(flightAssumptions, nozzleState, combustionState, physicalDesignState)
+flightOpts = flightState.opts
+%%
+figure('Name', 'Flight physics');
+%%
+plotFlightPhysics(flightState);
+
+%%
+figure('Name', 'Flight');
+%%
+plotFlight(flightState);

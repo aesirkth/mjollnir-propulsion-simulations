@@ -1,5 +1,5 @@
 % The simulation system
-function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust,ccTemperature, tankPressure] = odeSystem(t, X, opts)
+function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust,ccTemperature, tankPressure] = combustionOdeSystem(t, X, opts)
     % X is of the form [oxidizerMass, fuelMass, portRadius, ccPressure]
     oxidizerMass = X(1);
     fuelMass = X(2);
@@ -12,7 +12,7 @@ function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,
     % Computed mass flow
     massFlow = oxidizerMassFlow + fuelMassFlow;
 
-    ambientPressure = 101300; % not optimal but will do for now...
+    ambientPressure = opts.input.nozzleState.NozzleExpansionPressure; % not optimal but will do for now...
 
     % Thrust Force
     thrust = thrustModel(t, massFlow, ccPressure, ambientPressure, cStar, opts);

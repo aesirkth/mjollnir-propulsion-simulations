@@ -1,4 +1,4 @@
-% This file is run in physicalDesignSimulation.m
+% This file is run in physicalDesignSimulationAssumptions.m
 % Do not run this file as it is.
 %
 % This file contains assumptions for the physical design simulation of the Eyjafjallajökull hybrid rocket engine.
@@ -16,3 +16,5 @@ opts.OxidizerTankSigma  = sigma;
 
 opts.ccDensity  = density;
 opts.ccSigma  = sigma;
+
+opts.EngineFixedMass = 6;

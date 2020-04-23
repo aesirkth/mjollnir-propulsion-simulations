@@ -9,9 +9,9 @@ function combustionState = combustionSimulation(opts, nozzleState)
 
   run("./combustion/derivedProperties");
 
-  model = @(t, y) odeSystem(t, y, opts);
+  model = @(t, y) combustionOdeSystem(t, y, opts);
   initialState = [opts.OxidizerMass, opts.FuelMass, opts.FuelGrainInitialPortRadius, opts.ccInitialPressure];
-  odeOpts = odeset('Events', @odeSystemEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
+  odeOpts = odeset('Events', @combustionOdeSystemEvents, 'RelTol', 1e-8, 'AbsTol', 1e-8);
   [t, state,te,ye,ie] = ode45(model, [0 50], initialState, odeOpts);
 
   if isempty(te)
