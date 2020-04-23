@@ -1,4 +1,4 @@
-function storeFigure(name)
+function storeFigure(name, varargin)
     [dir] = fileparts(name);
     if ~exist(dir, 'dir')
       mkdir(dir)
@@ -6,8 +6,18 @@ function storeFigure(name)
     
     x = 0;
     y = 0;
-    w = 500;
-    h = 300;
+    
+    
+    if isempty(varargin)
+        w = 600;
+        h = 450;
+    else 
+        w = varargin{1};
+        h = varargin{2};
+    end
+    
+    w 
+    h
     
     axis tight
     set(gcf,'Resize','off')

@@ -1,23 +1,8 @@
-clear
-close all
-
-path(pathdef);
-
-addpath('./nozzle');
-addpath('./combustion');
-addpath('./physicalDesign');
-addpath('./flight');
-addpath('./plotting');
+run("./setup");
 
 %%
-global plotDirectory;
-[dir] = fileparts(mfilename('fullpath'));
-plotDirectory = fullfile(dir, "/plots");
-clear dir;
-
-%%
-% setPlotMode("save");
-setPlotMode("show");
+setPlotMode("save");
+% setPlotMode("show");
 
 %%
 nozzleAssumptions = nozzleSimulationAssumptions()

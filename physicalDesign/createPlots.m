@@ -1,4 +1,5 @@
 setupSubplots(3,1)
+nextPlot('');
 
 ccWallThickness = physicalDesignState.opts.ccThickness;
 casingThickness = physicalDesignState.opts.input.combustionState.opts.FuelGrainContainerWallThickness;
@@ -12,19 +13,20 @@ rCC = physicalDesignState.opts.ccRadius;
 lOxidTank = physicalDesignState.opts.OxidizerTankLength;
 tOxidTank = physicalDesignState.opts.OxidizerTankThickness;
 
-nextPlot("physicalDesign/fuelGrain");
 hold on
 
 offset = 0;
 plotCombustionChamber(rCC, ccWallThickness, casingThickness, unusableMarginThickness, initialPortRadius, fuelGrainLength, offset);
 setupPlot(rCC, "Combustion chamber");
+legend('show', 'location', 'southoutside')
 
-nextPlot("physicalDesign/oxidizerTank");
+nextPlot("physicalDesign/fuelGrain", 400, 800);
 hold on
 plotOxidizerTank(rOxidTank, lOxidTank, tOxidTank, 0);
 setupPlot(rOxidTank, "Oxidizer tank");
+legend('show', 'location', 'best outside')
 
-nextPlot("physicalDesign/fullAssembly");
+nextPlot("physicalDesign/oxidizerTank", 400, 800);
 hold on
 
 offset = rCC;
@@ -33,6 +35,8 @@ plotCombustionChamber(rCC, ccWallThickness, casingThickness, unusableMarginThick
 offset = fuelGrainLength + 4*rCC;
 plotOxidizerTank(rOxidTank, lOxidTank, tOxidTank, offset);
 setupPlot(max(rOxidTank, rCC), "Full system");
+legend('show', 'location', 'best outside')
+nextPlot("physicalDesign/fullAssembly", 400, 800);
 
 function plotCombustionChamber(radius, wallThickness, fuelGrainCasingThickness, unusableFuelThickness, initialPortRadius, fuelGrainLength, yOffset)
   r = radius; % 
@@ -77,7 +81,6 @@ function setupPlot(r, plottitle)
   axis equal
   lims = ylim;
   ylim([lims(1)-r lims(2)+r])
-  legend('show', 'location', 'southoutside')
   xlabel("x [m]");
   ylabel("y [m]");
 end

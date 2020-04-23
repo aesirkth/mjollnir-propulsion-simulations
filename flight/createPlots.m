@@ -1,4 +1,5 @@
 setupSubplots(4,3)
+nextPlot('');
 
 r = flightState.position;
 t = flightState.time;
@@ -19,7 +20,6 @@ burnOutIndex = burnOutIndex(1);
 [~, apogeeIndex] = max(altitude);
 
 
-nextPlot("flight/trajectory");
 hold on
 lims = [min(r(:,1)/1e3) max(r(:,1)/1e3)];
 xlim(lims);
@@ -37,10 +37,10 @@ title("2D trajectory");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/trajectory");
 
-nextPlot("flight/altitudeOverTime");
 hold on
-lims = [min(t) max(t)]
+lims = [min(t) max(t)];
 xlim(lims);
 plot(lims, [1 1] * flightState.opts.goalAltitude, '-m', 'LineWidth', 2, 'DisplayName', sprintf("%.0f km", flightState.opts.goalAltitude))
 plot(lims, [1 1] * flightState.opts.excessiveGoalAltitude, '--r', 'LineWidth', 2, 'DisplayName', sprintf("%.0f km", flightState.opts.excessiveGoalAltitude))
@@ -55,8 +55,8 @@ title("Altitude over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/altitudeOverTime");
 
-nextPlot("flight/vMagOverTime");
 plot(t, vMag, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), vMag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -67,8 +67,8 @@ title("Velocity over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/vMagOverTime");
 
-nextPlot("flight/machOverTime");
 plot(t, mach, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), mach(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -79,8 +79,8 @@ title("Mach over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/machOverTime");
 
-nextPlot("flight/velocityOverAltitude");
 plot(altitude / 1000, vMag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(altitude(1) / 1000, vMag(1), '*', 'DisplayName', 'Initial')
@@ -92,9 +92,9 @@ title("Velocity as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/velocityOverAltitude");
 
 
-nextPlot("flight/accelerationOverTime");
 plot(t, abs(acceleration)/9.8066, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), abs(acceleration(apogeeIndex))/9.8066, 'b*', 'DisplayName', 'Apogee')
@@ -105,8 +105,8 @@ title("Acceleration over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/accelerationOverTime");
 
-nextPlot("flight/dragOverTime");
 % mass = massModel(t, flightOpts.DryMass, propellantMass);
 plot(t, drag, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
@@ -118,8 +118,8 @@ title("Drag over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/dragOverTime");
 
-nextPlot("flight/dragOverAltitude");
 plot(altitude / 1000, drag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(altitude(1) / 1000, drag(1), '*', 'DisplayName', 'Initial')
@@ -131,8 +131,8 @@ title("Drag as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/dragOverAltitude");
 
-nextPlot("flight/propellantMassOverTime");
 plot(t, propellantMass, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t(apogeeIndex), propellantMass(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -145,8 +145,8 @@ xlim([-1 t(apogeeIndex)+1]);
 xticks([0 t(burnOutIndex) t(apogeeIndex)]);
 grid on
 scaleLims(0.1);
+nextPlot("flight/propellantMassOverTime");
 
-nextPlot("flight/massFlowOverTime");
 plot(t, massFlow, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t(apogeeIndex), massFlow(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -159,8 +159,8 @@ title("Propellant mass flow over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/massFlowOverTime");
 
-nextPlot("flight/thrustOverTime");
 plot(t, thrust / 1e3, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t, pressureThrust / 1e3, '--', 'LineWidth', 2, 'DisplayName', 'Pressure component')
@@ -175,8 +175,8 @@ title("Thrust over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/thrustOverTime");
 
-nextPlot("flight/specificImpulseOverTime");
 plot(t, specificImpulse, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t(apogeeIndex), specificImpulse(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
@@ -189,3 +189,4 @@ title("Specific impulse over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
+nextPlot("flight/specificImpulseOverTime");

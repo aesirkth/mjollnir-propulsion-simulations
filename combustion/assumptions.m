@@ -1,7 +1,7 @@
 % This file is run in combustionSimulationAssumptions.m
 % Do not run this file as it is.
 %
-% This file contains assumptions for the combustion simulation of the Eyjafjallajökull hybrid rocket engine.
+% This file contains assumptions for the combustion simulation of the Eyjafjallaj??kull hybrid rocket engine.
 
 [oxidizerDensity, oxidizerVaporPressure, fuelDensity, carbonAdditiveDensity] = propellantProperties();
 
@@ -26,7 +26,7 @@ opts.FuelGrainContainerWallThicknessInMm = 2;
 opts.FuelGrainContainerDensity = 500;
 
 opts.FuelGrainLengthInCm = 30;
-opts.FuelGrainInitialPortRadiusInCm = 3.2;
+opts.FuelGrainInitialPortRadiusInCm = 2.5;
 
 opts.UnusableFuelMarginThicknessInCm = 0.5;
 
