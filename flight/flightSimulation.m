@@ -24,21 +24,29 @@ function flightState = flightSimulation(opts, nozzleState, combustionState, phys
   N = length(t);
   thrustFactor = zeros(N,1);
   pressureThrustFactor = zeros(N,1);
+  massFlowThrustFactor = zeros(N,1);
   mass = zeros(N,1);
   acceleration = zeros(N,2);
   dragFactor = zeros(N,1);
   for i = 1:N
-    [dXdt, thrustFactor(i), dragFactor(i), pressureThrustFactor(i), mass(i)] = flightOdeSystem(t(i), state(i,:)', opts);
+    [dXdt, thrustFactor(i), dragFactor(i), massFlowThrustFactor(i), pressureThrustFactor(i), mass(i)] = flightOdeSystem(t(i), state(i,:)', opts);
     acceleration(i,:) = dXdt(3:4);
   end
 
-  massFlow = movmean(gradient(mass, t), 5);
-  exhaustVelocity = (thrustFactor ./ (massFlow + (massFlow < 0.5*mean(massFlow)))) .* (massFlow >= 0.5*mean(massFlow));
+  massFlow = abs(movmean(gradient(mass, t), 5));
+
+  exhaustVelocity = zeros(N,1);
+  for i = 1:N
+    if massFlow(i) < max(massFlow)/6
+      continue;
+    end
+    exhaustVelocity(i) = thrustFactor(i) / massFlow(i);
+  end
+  exhaustVelocity;
   specificImpulse = exhaustVelocity ./ 9.8066;
 
-  massFlow = [massFlow']';
-  exhaustVelocity = movmean([exhaustVelocity']', 5);
-  specificImpulse = movmean([specificImpulse']', 5);
+  exhaustVelocity = movmean(exhaustVelocity, 5);
+  specificImpulse = movmean(specificImpulse, 5);
 
   flightState.time = t;
   flightState.position = state(:, 1:2);
@@ -62,7 +70,7 @@ function flightState = flightSimulation(opts, nozzleState, combustionState, phys
   flightState.maximumVelocity = max(flightState.velocityNorm);
   flightState.maximumAcceleration = max(flightState.accelerationNorm);
   flightState.maximumMach = max(flightState.mach);
-  flightState.massFlow = abs(massFlow);
+  flightState.massFlow = massFlow;
   flightState.exhaustVelocity = exhaustVelocity;
   flightState.specificImpulse = specificImpulse;
   flightState.dryMass = opts.dryMass;

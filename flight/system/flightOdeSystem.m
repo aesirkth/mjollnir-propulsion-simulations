@@ -1,4 +1,4 @@
-function [dXdt, thrustFactor, dragFactor, pressureThrustFactor, mass] = flightOdeSystem(t, X, opts)
+function [dXdt, thrustFactor, dragFactor, massFlowThrustFactor, pressureThrustFactor, mass] = flightOdeSystem(t, X, opts)
   r = X(1:2);
   v = X(3:4);
 
@@ -21,10 +21,10 @@ function [dXdt, thrustFactor, dragFactor, pressureThrustFactor, mass] = flightOd
   dryMass = opts.dryMass;
   propellantMass = opts.input.combustionState.propellantMass(end);
 
-  thrustFactor = 0;
+  massFlowThrustFactor = 0;
   pressureThrustFactor = 0;
   if t <= max(opts.input.combustionState.time)
-    thrustFactor = interp1(opts.input.combustionState.time, opts.input.combustionState.thrust, t);
+    massFlowThrustFactor = interp1(opts.input.combustionState.time, opts.input.combustionState.thrust, t);
     propellantMass = interp1(opts.input.combustionState.time, opts.input.combustionState.propellantMass, t);
 
     pressureThrustFactor = opts.input.nozzleState.NozzleExhaustArea * (opts.input.nozzleState.NozzleExpansionPressure - ambientPressure);
@@ -37,7 +37,8 @@ function [dXdt, thrustFactor, dragFactor, pressureThrustFactor, mass] = flightOd
 
   gravityForce = [0;-1] * gravityAcceleration * mass;
 
-  thrustForce = vN * (thrustFactor + pressureThrustFactor);
+  thrustFactor = massFlowThrustFactor + pressureThrustFactor;
+  thrustForce = vN * thrustFactor;
   
   acceleration = (dragForce + thrustForce + gravityForce) / mass;
 
