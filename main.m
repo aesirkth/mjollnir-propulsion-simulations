@@ -30,3 +30,6 @@ plotCombustion(combustionState);
 %%
 physicalDesignAssumptions = physicalDesignSimulationAssumptions(nozzleState, combustionState)
 physicalDesignState = physicalDesignSimulation(physicalDesignAssumptions, nozzleState, combustionState)
+%%
+figure('Name', 'Physical design');
+plotPhysicalDesign(physicalDesignState);

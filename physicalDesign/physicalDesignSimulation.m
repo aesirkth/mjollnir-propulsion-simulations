@@ -10,4 +10,5 @@ function physicalDesignState = physicalDesignSimulation(opts, nozzleState, combu
   run("./physicalDesign/derivedProperties");
 
   physicalDesignState = struct();
+  physicalDesignState.opts = opts;
 end
