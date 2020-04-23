@@ -16,9 +16,6 @@ function storeFigure(name, varargin)
         h = varargin{2};
     end
     
-    w 
-    h
-    
     axis tight
     set(gcf,'Resize','off')
     set(gcf,'Position',[x y w h])
