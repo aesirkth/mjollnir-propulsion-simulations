@@ -3,16 +3,16 @@
 %
 % This file contains assumptions for the physical design simulation of the Eyjafjallajökull hybrid rocket engine.
 
+opts.RocketExternalDiameterInCm = 15;
 
 [density, sigma] = oxidizerTankMaterialProperties()
 
-opts.OxidizerTankDiameter = 0.075;
+opts.ExtraVolumeFactor = 0.1; % Factor of "extra" volume added to the oxidizer tank
+opts.OxidizerTankDiameterInCm = opts.RocketExternalDiameterInCm;
 opts.OxidizerTankDensity  = density;
 opts.OxidizerTankSigma  = sigma;
-opts.OxidizerTankSafetyMargin = combustionState.opts.OxidizerTankSafetyMargin;
 
 [density, sigma] = combustionChamberMaterialProperties()
 
 opts.ccDensity  = density;
 opts.ccSigma  = sigma;
-opts.ccSafetyMargin = combustionState.opts.ccCombustionPressureSafetyMargin;

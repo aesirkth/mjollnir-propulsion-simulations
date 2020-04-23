@@ -1,16 +1,16 @@
 setupSubplots(3,1)
 
-ccWallThickness = 0.01;
-casingThickness = 0.01;
-unusableMarginThickness = 0.01;
-initialPortRadius = 0.01;
-fuelGrainLength = 0.3;
+ccWallThickness = physicalDesignState.opts.ccThickness;
+casingThickness = physicalDesignState.opts.input.combustionState.opts.FuelGrainContainerWallThickness;
+unusableMarginThickness = physicalDesignState.opts.input.combustionState.opts.UnusableFuelMarginThickness;
+initialPortRadius = physicalDesignState.opts.input.combustionState.opts.FuelGrainInitialPortRadius;
+fuelGrainLength = physicalDesignState.opts.input.combustionState.opts.FuelGrainLength;
 
-rOxidTank = 0.075;
-rCC = 0.075;
+rOxidTank = physicalDesignState.opts.OxidizerTankRadius;
+rCC = physicalDesignState.opts.ccRadius;
 
-lOxidTank = 2;
-tOxidTank = 0.003;
+lOxidTank = physicalDesignState.opts.OxidizerTankLength;
+tOxidTank = physicalDesignState.opts.OxidizerTankThickness;
 
 nextPlot("physicalDesign/fuelGrain");
 hold on
