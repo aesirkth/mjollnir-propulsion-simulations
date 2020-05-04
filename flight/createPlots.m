@@ -37,7 +37,7 @@ title("2D trajectory");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/trajectory");
+nextPlot([filepath filesep "trajectory"]);
 
 hold on
 lims = [min(t) max(t)];
@@ -55,7 +55,7 @@ title("Altitude over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/altitudeOverTime");
+nextPlot([filepath filesep "altitudeOverTime"]);
 
 plot(t, vMag, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
@@ -67,7 +67,7 @@ title("Velocity over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/vMagOverTime");
+nextPlot([filepath filesep "vMagOverTime"]);
 
 plot(t, mach, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
@@ -79,7 +79,7 @@ title("Mach over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/machOverTime");
+nextPlot([filepath filesep "machOverTime"]);
 
 plot(altitude / 1000, vMag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -92,7 +92,7 @@ title("Velocity as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/velocityOverAltitude");
+nextPlot([filepath filesep "velocityOverAltitude"]);
 
 
 plot(t, abs(acceleration)/9.8066, 'LineWidth', 2, 'HandleVisibility','off');
@@ -105,7 +105,7 @@ title("Acceleration over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/accelerationOverTime");
+nextPlot([filepath filesep "accelerationOverTime"]);
 
 % mass = massModel(t, flightOpts.DryMass, propellantMass);
 plot(t, drag, 'LineWidth', 2, 'HandleVisibility','off');
@@ -118,7 +118,7 @@ title("Drag over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/dragOverTime");
+nextPlot([filepath filesep "dragOverTime"]);
 
 plot(altitude / 1000, drag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -131,7 +131,7 @@ title("Drag as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/dragOverAltitude");
+nextPlot([filepath filesep "dragOverAltitude"]);
 
 plot(t, propellantMass, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -145,7 +145,7 @@ xlim([-1 t(apogeeIndex)+1]);
 xticks([0 t(burnOutIndex) t(apogeeIndex)]);
 grid on
 scaleLims(0.1);
-nextPlot("flight/propellantMassOverTime");
+nextPlot([filepath filesep "propellantMassOverTime"]);
 
 plot(t, massFlow, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -159,7 +159,7 @@ title("Propellant mass flow over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/massFlowOverTime");
+nextPlot([filepath filesep "massFlowOverTime"]);
 
 plot(t, thrust / 1e3, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -175,7 +175,7 @@ title("Thrust over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/thrustOverTime");
+nextPlot([filepath filesep "thrustOverTime"]);
 
 plot(t, specificImpulse, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -189,4 +189,4 @@ title("Specific impulse over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/specificImpulseOverTime");
+nextPlot([filepath filesep "specificImpulseOverTime"]);

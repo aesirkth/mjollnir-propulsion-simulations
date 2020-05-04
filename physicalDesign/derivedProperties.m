@@ -10,7 +10,7 @@ opts.OxidizerVolume = combustionState.opts.OxidizerVolume;
 opts.OxidizerVolumeInLiter = opts.OxidizerVolume * 10*10*10;
 opts.OxidizerTankDiameter = opts.OxidizerTankDiameterInCm / 100; % External diameter
 opts.OxidizerTankRadius = opts.OxidizerTankDiameter / 2; % External radius
-opts.OxidizerTankPressure = combustionState.opts.OxidizerTankPressure;
+opts.OxidizerTankPressure = combustionState.opts.OxidizerPressure;
 opts.OxidizerTankSafetyMargin = combustionState.opts.OxidizerTankSafetyMargin;
 opts.OxidizerTankDesignPressure = opts.OxidizerTankPressure * opts.OxidizerTankSafetyMargin; % Including safety margin
 

@@ -7,6 +7,8 @@ if isempty(burnOutIndex)
 end
 burnOutIndex = burnOutIndex(1);
 
+if tankModel ~= 2
+
 setupSubplots(3,3)
 nextPlot('');
 
@@ -16,7 +18,7 @@ xlabel('Time [s]')
 ylabel('Regression Rate [mm/s]')
 title('Regression Rate over time')
 grid('on')
-nextPlot('combustion/regressionRate')
+nextPlot([filepath filesep 'regressionRate'])
 
 plot(t,combustionState.portRadius*1000, 'HandleVisibility','off')
 hold on
@@ -37,7 +39,7 @@ title('Port Radius over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
-nextPlot('combustion/portRadius')
+nextPlot([filepath filesep 'portRadius'])
 
 plot(t,combustionState.ccPressure/1e6', 'HandleVisibility','off')
 hold on
@@ -50,7 +52,7 @@ title('Combustion Chamber pressure over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
-nextPlot('combustion/combustionPressure')
+nextPlot([filepath filesep 'combustionPressure'])
 
 OF = combustionState.oxidizerMassFlow ./ combustionState.fuelMassFlow;
 plot(t,OF)
@@ -60,7 +62,7 @@ xlabel('Time [s]')
 ylabel('O/F ratio [MPa]')
 title('O/F ratio over time')
 grid('on')
-nextPlot('combustion/ofRatio')
+nextPlot([filepath filesep 'ofRatio'])
 
 plot(t,combustionState.thrust/1000, 'DisplayName', 'Real thrust (incl. efficiency)')
 hold on
@@ -71,7 +73,7 @@ ylabel('Thrust [kN]')
 title('Thrust over time')
 legend('show', 'Location', 'best');
 grid('on')
-nextPlot('combustion/thrust')
+nextPlot([filepath filesep 'thrust'])
 
 plot(t,combustionState.ccTemperature)
 xlim([0 t(burnOutIndex)]);
@@ -79,20 +81,7 @@ xlabel('Time [s]')
 ylabel('CC Temperature [K]')
 title('Combustion Chamber Temperature over time')
 grid('on')
-nextPlot('combustion/combustionTemperature')
-
-plot(t,combustionState.tankPressure/1e6, 'HandleVisibility','off')
-hold on;
-plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
-plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
-xlim([0 t(burnOutIndex)]);
-xlabel('Time [s]')
-ylabel('Oxidizer tank pressure [MPa]')
-title('Oxidizer tank pressure over time')
-legend('show', 'Location', 'best');
-scaleLims(0.1);
-grid('on')
-nextPlot('combustion/tankPressure')
+nextPlot([filepath filesep 'combustionTemperature'])
 
 plot(t,combustionState.fuelMass, 'LineWidth', 2, 'DisplayName', 'Fuel')
 hold on
@@ -104,7 +93,7 @@ ylabel('Mass [kg]')
 title('Propellant mass over time')
 legend('show', 'Location', 'best');
 grid('on')
-nextPlot('combustion/mass')
+nextPlot([filepath filesep 'mass'])
 
 plot(t,combustionState.fuelMassFlow, 'LineWidth', 2, 'DisplayName', 'Fuel')
 hold on
@@ -116,4 +105,35 @@ ylabel('Mass flow [kg/s]')
 title('Mass flow over time')
 legend('show', 'Location', 'best');
 grid('on')
-nextPlot('combustion/massFlow')
+nextPlot([filepath filesep 'combustion'])
+
+end
+
+plot(t,combustionState.tankPressure/1e6, 'HandleVisibility','off')
+hold on;
+plot([t(1) t(end)], [combustionState.opts.OxidizerPressure, combustionState.opts.OxidizerPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
+plot([t(1) t(end)], [combustionState.opts.OxidizerPressure, combustionState.opts.OxidizerPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
+xlim([0 t(burnOutIndex)]);
+xlabel('Time [s]')
+ylabel('Oxidizer tank pressure [MPa]')
+title('Oxidizer tank pressure over time')
+legend('show', 'Location', 'best');
+scaleLims(0.1);
+grid('on')
+nextPlot([filepath filesep 'tankPressure'])
+
+if tankModel ~= 0
+    plot(t,combustionState.oxidizerTemperature, 'LineWidth', 2, 'DisplayName', 'Oxidizer temperature')
+    hold on;
+    plot([t(1) t(end)], [combustionState.opts.AmbientTemperature, combustionState.opts.AmbientTemperature], '--', 'LineWidth', 2, 'DisplayName', 'Ambient temperature')
+    plot(t,combustionState.wallTemperatureGNode, '--', 'LineWidth', 2, 'DisplayName','Wall temperature of gas node')
+    plot(t,combustionState.wallTemperatureLNode, '--', 'LineWidth', 2, 'DisplayName','Wall temperature of liquid node')
+    xlim([0 t(burnOutIndex)]);
+    xlabel('Time [s]')
+    ylabel('Temperature temperature [T]')
+    title('Oxidizer temperature over time')
+    legend('show', 'Location', 'best');
+    scaleLims(0.1);
+    grid('on')
+    nextPlot([filepath filesep 'oxidzerTemperature'])
+end

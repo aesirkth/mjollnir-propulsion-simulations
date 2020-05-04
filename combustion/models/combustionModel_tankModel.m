@@ -1,15 +1,9 @@
-function [regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,cStar,ccTemperature, tankPressure] = combustionModel(t,portRadius,ccPressure,oxidizerMass,opts)
+function [regressionRate,ccPressureVariation,fuelMassFlow,cStar,ccTemperature] = combustionModel_tankModel(t,portRadius,ccPressure,oxidizerMass, oxidizerMassFlow,opts)
 if oxidizerMass > 0
     
-    % Tank pressure of the instant
-    tankPressure = tankPressureModel(t,oxidizerMass,opts);
-    
-    % Propellant mass flow and regression rate
-    ox.h_l = py.CoolProp.CoolProp.PropsSI('H','P',tankPressure,'Q',0,'N2O'); % specific enthalpy of N2O state in tank
-    oxidizerMassFlow = oxidizerMassFlowModel(tankPressure,ccPressure,ox.h_l,opts);
     regressionRate = regressionRateModel(portRadius,oxidizerMassFlow);
     fuelMassFlow = fuelMassFlowModel(regressionRate,portRadius,opts);
-
+    
     % Characteristic velocity (from curve)
     cStar = characteristicVelocity(oxidizerMassFlow,fuelMassFlow);
     ccTemperature = cStar^2 * opts.Gamma * ((opts.Gamma+1)/2)^(-(opts.Gamma+1)/(opts.Gamma-1)) * opts.ProductsMolecularWeight / 8.314;
@@ -26,9 +20,7 @@ if oxidizerMass > 0
     ccPressureVariation = (8.314 / opts.ProductsMolecularWeight) * ccTemperature * dRho1;
     
 else
-    tankPressure = tankPressureModel(t,0,opts);
     ccPressureVariation = 0;
-    oxidizerMassFlow = 0;
     regressionRate = 0;
     fuelMassFlow = 0;
     cStar = 0;
