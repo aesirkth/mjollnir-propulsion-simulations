@@ -1,4 +1,8 @@
 run("./setup");
+%% In order to execute this code, you need to have CoolProp installed. This can be done very fast if you follow the instructions given in:
+% readmeCoolProp.txt
+% on the highest level of the folder structure
+
 %% Set up tank simulation
 %{
 0: approximation of tank pressure with linear decay
