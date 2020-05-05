@@ -13,7 +13,11 @@ function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,
     massFlow = oxidizerMassFlow + fuelMassFlow;
 
     % Thrust Force
-    thrust = thrustModel(t, massFlow, ccPressure, opts.AmbientPressure, cStar, opts);
+    if opts.extraOutput ~= 0
+        thrust = thrustModel(t, massFlow, ccPressure, opts.AmbientPressure, cStar, opts);
+    else
+        thrust = 0;
+    end
     
     % Returning differential vector
     dXdt = [-fuelMassFlow;regressionRate;ccPressureVariation;-oxidizerMassFlow];

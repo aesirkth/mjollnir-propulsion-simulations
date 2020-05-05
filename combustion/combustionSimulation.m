@@ -9,6 +9,8 @@ opts.input = struct( ...
 
 run("./combustion/derivedProperties");
 
+
+opts.extraOutput = 0;
 if tankModel ~= 2
 % set up combustion simulation
 model = @(t, y) tank_combustionOdeSystem(t, y, tankModel, opts);
@@ -38,6 +40,10 @@ else
     odeOpts = odeset('Events', @tankOdeSystemEvents, 'Stats', 'on', 'RelTol', 1e-8, 'AbsTol', 1e-8);
     [t, state,te,ye,ie] = ode45(model, [0 50], initialState_tank, odeOpts);
 end
+
+
+fprintf("ODE solving done. reducing results\n");
+opts.extraOutput = 1;
 
 if isempty(te)
     burnTime = t;
