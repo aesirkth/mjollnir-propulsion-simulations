@@ -9,6 +9,8 @@ opts.input = struct( ...
 
 run("./combustion/derivedProperties");
 
+tol = 1e-8;
+T = 50;
 
 opts.extraOutput = 0;
 if tankModel ~= 2
@@ -26,8 +28,8 @@ if tankModel == 1
         opts.OxidizerInternalEnergy];
 end
 initialState = [initialState, opts.OxidizerMass];
-odeOpts = odeset('Events', @tank_combustionOdeSystemEvents, 'Stats', 'on', 'RelTol', 1e-8, 'AbsTol', 1e-8);
-[t, state,te,ye,ie] = ode45(model, [0 50], initialState, odeOpts);
+odeOpts = odeset('Events', @tank_combustionOdeSystemEvents, 'Stats', 'on', 'RelTol', tol, 'AbsTol', tol);
+sol = ode45(model, [0 T], initialState, odeOpts);
 
 else
     % tank draining simulation
@@ -37,19 +39,25 @@ else
         opts.tankInititalWallTemperature,...
         opts.OxidizerInternalEnergy,...
         opts.OxidizerMass];
-    odeOpts = odeset('Events', @tankOdeSystemEvents, 'Stats', 'on', 'RelTol', 1e-8, 'AbsTol', 1e-8);
-    [t, state,te,ye,ie] = ode45(model, [0 50], initialState_tank, odeOpts);
+    odeOpts = odeset('Events', @tankOdeSystemEvents, 'Stats', 'on', 'RelTol', tol, 'AbsTol', tol);
+    sol = ode45(model, [0 T], initialState_tank, odeOpts);
 end
 
+t = sol.x;
+te = sol.xe;
 
 fprintf("ODE solving done. reducing results\n");
 opts.extraOutput = 1;
 
 if isempty(te)
-    burnTime = t;
+    burnTime = max(t);
 else
     burnTime = te(1);
 end
+
+t = linspace(0, burnTime, 1000);
+state = deval(sol, t)';
+
 oxidizerMass = state(:, end);
 fuelMass = state(:, 1);
 portRadius = state(:, 2);
@@ -74,7 +82,7 @@ wallTemperatureGNode = zeros(N,1);
 global tankTemperature
 tankTemperature = opts.OxidizerTemperature;
 for i = 1:N
-    [~, fuelMassFlow(i),regressionRate(i),ccPressureVariation(i),tankWallTemperatureGradientLNode(i),tankWallTemperatureGradientGNode(i),tankInternalEnergyGradient(i),oxidizerMassFlow(i),thrust(i),ccTemperature(i),tankPressure(i),oxidizerTemperature(i),wallTemperatureLNode(i),wallTemperatureGNode(i)] = model(t(i),state(i,:)');
+    [~, fuelMassFlow(i),regressionRate(i),ccPressureVariation(i),tankWallTemperatureGradientLNode(i),tankWallTemperatureGradientGNode(i),tankInternalEnergyGradient(i),oxidizerMassFlow(i),thrust(i),ccTemperature(i),tankPressure(i),oxidizerTemperature(i),wallTemperatureLNode(i),wallTemperatureGNode(i)] = model(t(i),state(i, :)');
 end
 %%
 combustionState = struct();
