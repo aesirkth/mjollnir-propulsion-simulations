@@ -3,7 +3,7 @@ function [value,isterminal,direction] = tank_combustionOdeSystemEvents(t, X)
     % X is of the form [oxidizerMass, fuelMass, portRadius, ccPressure]
 
     % First event is oxidizer mass is depleted
-    value = [min(X(end), X(end))];
+    value = [min(X(1), X(end))];
 
     % Terminate simulation when hitting the ground
     isterminal = [1];
