@@ -1,4 +1,10 @@
 function [dXdt,fuelMassFlow,regressionRate,ccPressureVariation,temperatureGradient_l,temperatureGradient_g,internalEnegeryGradient,oxidizerMassFlow,thrust,ccTemperature, tankPressure,tankTemperature,wallTemperature_l, wallTemperature_g] = tank_combustionOdeSystem(t, X, tankModel, opts)
+persistent i
+if isempty(i)
+    i = 1;
+end
+
+i = i +1;
 
 if tankModel == 0 
     [dXdt, regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust,ccTemperature,tankPressure] = ...
@@ -19,5 +25,7 @@ elseif tankModel == 2
     fuelMassFlow = NaN; regressionRate = NaN; ccPressureVariation = NaN; thrust = NaN; ccTemperature = NaN;
 end
 
+if mod(i, 100) == 0
 disp(['t = ' num2str(t) ' Ox mass remaining: ' num2str(100*X(end) / (opts.OxidizerMass)) ' %'])
+end
 end
