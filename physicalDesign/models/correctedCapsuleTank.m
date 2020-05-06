@@ -1,4 +1,4 @@
-function [L, tMin, t, m, V] =  correctedCapsuleTank(externalRadius, desiredVolume, pressure, sigma, rho)
+function [L, tMin, t, m, V] =  correctedCapsuleTank(externalRadius, desiredVolume, pressure, sigma, rho, rounding)
     tol = 1e-10;
     
     additionalLength = 0;
@@ -6,7 +6,7 @@ function [L, tMin, t, m, V] =  correctedCapsuleTank(externalRadius, desiredVolum
         Lstar = capsuleTankLength(desiredVolume, externalRadius);
         L = Lstar + additionalLength;
         tMin = capsuleTankThickness(externalRadius, pressure, sigma);
-        t = ceil(tMin*1e3/0.5) * 0.5 /1e3;
+        t = ceil(tMin*1e3/ rounding) *rounding /1e3;
 
         [m, V] = capsuleTankMass(externalRadius, L, t, rho);
 
