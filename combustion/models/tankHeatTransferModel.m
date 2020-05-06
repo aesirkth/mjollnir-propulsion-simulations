@@ -49,9 +49,11 @@ Q_w_conv_in_g = tankConvectiveHeatTransfer(r_o, air.cp, air.rho, opts.AmbientTem
 %% Conductive heat transfer (from liquid wall part to gaseous wall part)
 
 % Check whether the filling heights some up to the tank height
-tol = 1E-2;
-if abs((L_l + L_g) - (opts.tankLength + 2*r_i))  > tol
-    disp(['error: filling heights of N2O phases dont sum up to tank height - difference: ' num2str((L_l + L_g) - (opts.tankLength + 2*r_i))])
+% tol = 1E-2;
+
+if (L_l + L_g) > opts.tankLength + 2*r_i
+%if abs((L_l + L_g) - (opts.tankLength + 2*r_i))  > tol
+    disp(['error: filling heights of N2O phases dont sum up to less than tank height - difference: ' num2str((L_l + L_g) - (opts.tankLength + 2*r_i))])
 end
 % Calculate the distance between the center of the phases
 L_w_cond = (L_l + L_g) / 2;

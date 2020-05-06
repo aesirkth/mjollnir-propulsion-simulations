@@ -7,7 +7,7 @@
 
 % ambient conditions (define somewhere else?)
 opts.AmbientPressure = 101325;
-opts.AmbientTemperature = 293.15;
+opts.AmbientTemperature = 273.15;
 
 % initital conditions: CHECK TEMPERATURE!!! tankInititalOxidizerTemperature
 % a) fluid properties
@@ -18,7 +18,7 @@ run("../physicalDesign/assumptions.m"); % lol
 opts.tankDiameterInCm = opts.OxidizerTankDiameterInCm
 
 % b) tank properties
-opts.tankInititalWallTemperature = opts.AmbientTemperature;
+opts.tankInititalWallTemperature = opts.OxidizerTemperature; % assume we insulate the rocket on the pad
 
 % tank material properties (check if to define here or somewhere else!!!)
 
@@ -33,8 +33,8 @@ opts.tankInititalWallTemperature = opts.AmbientTemperature;
 % opts.OxidizerTankPressure = oxidizerVaporPressure; % Initial tank pressure
 opts.OxidizerTankSafetyMargin = 1.5;
 opts.OxidizerTankPressureDrop = 0.4; % Factor to drop oxidizer tank pressure linearly
-opts.CarbonAdditiveFraction = 0.01; % Fraction of carbon in the fuel grain
-opts.DesignOFRatio = 8; % The OF ratio used to size the oxidizer tank
+opts.CarbonAdditiveFraction = 0.02; % Fraction of carbon in the fuel grain
+opts.DesignOFRatio = 7.5; % The OF ratio used to size the oxidizer tank
 
 
 opts.ccCombustionPressure = 4.5e6;  % Estimation of combustion chamber pressure - used as design pressure
@@ -45,7 +45,7 @@ opts.FuelDensity = fuelDensity;
 opts.CarbonDensity = carbonAdditiveDensity;
 
 opts.CombustionChamberDiameterInCm = 15; % External diameter
-opts.CombustionChamberSinusShapeAmplitude = 1/10;   % Proportion of initial port radius
+opts.CombustionChamberSinusShapeAmplitude = 0.00001;   % Proportion of initial port radius
 opts.CombustionChamberWallThicknessInMm = 3;
 opts.FuelGrainContainerWallThicknessInMm = 2;
 opts.FuelGrainContainerDensity = 500;
@@ -53,7 +53,7 @@ opts.FuelGrainContainerDensity = 500;
 opts.FuelGrainLengthInCm = 30;
 opts.FuelGrainInitialPortRadiusInCm = 2.5;
 
-opts.UnusableFuelMarginThicknessInCm = 0.5;
+opts.UnusableFuelMarginThicknessInCm = 0.8;
 
 [gamma, productsMolecularWeight] = combustionProperties();
 opts.Gamma = gamma;
@@ -62,7 +62,7 @@ opts.ProductsMolecularWeight = productsMolecularWeight;
 [dischargeCoefficient, holeDiameterMm] = injectorProperties();
 opts.InjectorsCd = dischargeCoefficient;
 opts.InjectorsDiameter = holeDiameterMm / 1e3;
-opts.NumberOfInjectors = 20;
+opts.NumberOfInjectors = 60;
 
 opts.CombustionEfficiency = 0.9;
 
