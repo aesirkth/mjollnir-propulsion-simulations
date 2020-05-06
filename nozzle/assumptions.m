@@ -6,7 +6,7 @@
 %% oh no
 
 opts.NozzleDesignGamma = 1.2;
-opts.NozzleDesignMassFlow = 3.5;
+opts.NozzleDesignMassFlow = 2.6;
 opts.NozzleDesignCStar = 1600;
 
 opts.NozzleDesignCombustionPressureInMpa = 3.5;
