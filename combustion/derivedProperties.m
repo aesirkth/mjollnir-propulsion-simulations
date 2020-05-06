@@ -11,8 +11,8 @@ opts.air.cp = airProperties.cp;
 opts.air.rho = airProperties.rho;
 opts.air.mu = airProperties.mu;
 opts.air.k = airProperties.k;
-opts.OxidizerPressure = py.CoolProp.CoolProp.PropsSI('P','T', opts.OxidizerTemperature,'Q',0,'N2O'); % initial oxidizer pressure: get temperature p for given pressure T and saturated liquid (Q, 0);
-oxInitialProperties = oxidizerProperties(opts.OxidizerPressure);    % get initital properties for initital tank pressure
+oxInitialProperties = oxidizerPropertiesTemperature('interp',opts.OxidizerTemperature, {'p', 'rho_l', 'u_l'}, opts);    % get initital properties for initital tank pressure
+opts.OxidizerPressure = oxInitialProperties.p;
 opts.OxidizerDensity = oxInitialProperties.rho_l;                       % only liquid phase of oxidizer in the beginning
 opts.OxidizerSpecificInternalEnergy = oxInitialProperties.u_l;          % only liquid phase of oxidizer in the beginning
 

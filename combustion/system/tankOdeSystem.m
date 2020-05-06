@@ -39,14 +39,13 @@ function [dXtank_dt, temperatureGradient_l, temperatureGradient_g, internalEnege
     % set temperature boundaries for bisection algorithm according to
     % temperature of previous time step
     global tankTemperature
-    T_low = tankTemperature - 1;%0.001;
-    T_up = tankTemperature + 1;%0.001;
-    tankTemperature = tankVolumeConstraint_BisectionAlgorithm(m, U, tankVolume, T_low, T_up, 1E-6);    % 45 percent of time
-    tankPressure = py.CoolProp.CoolProp.PropsSI('P','T',tankTemperature,'Q',0,'N2O'); 
-%     disp(['N2O temperature ' num2str(tankTemperature)])
+    T_low = tankTemperature - 1;
+    T_up = tankTemperature + 1;
+    tankTemperature = tankVolumeConstraint_BisectionAlgorithm(m, U, tankVolume, T_low, T_up, opts,1E-5);
     
     %% Get fluid properties: N2O
-    ox = oxidizerProperties(tankPressure); % 40 percent of time
+    ox = oxidizerPropertiesTemperature('interp',tankTemperature, {'p', 'rho_l', 'rho_g', 'cp_l', 'cp_g', 'mu_l', 'mu_g', 'k_l', 'k_g', 'h_l'}, opts); % 40 percent of time
+    tankPressure = ox.p;
     %% Calculate oxidizer mass flow
     massFlow = oxidizerMassFlowModel(tankPressure, ccPressure, ox.h_l, opts);
     %% Heat Transfer

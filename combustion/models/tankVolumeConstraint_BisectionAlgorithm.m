@@ -1,19 +1,13 @@
-function T = tankVolumeConstraint_BisectionAlgorithm(m, U, Vtank, T_low, T_up, tol)
+function T = tankVolumeConstraint_BisectionAlgorithm(m, U, Vtank, T_low, T_up, opts, tol)
     T_mid = (T_up + T_low) / 2;                 % initial fluid temperature
-    u_l = py.CoolProp.CoolProp.PropsSI('U','T',T_mid,'Q',0,'N2O');
-    u_g = py.CoolProp.CoolProp.PropsSI('U','T',T_mid,'Q',1,'N2O');
-    rho_l = py.CoolProp.CoolProp.PropsSI('D','T',T_mid,'Q',0,'N2O');
-    rho_g = py.CoolProp.CoolProp.PropsSI('D','T',T_mid,'Q',1,'N2O');
-    x = ((U/m) - u_l) / (u_g - u_l);
-    V = m*((1 - x)/rho_l + x/rho_g);
-    while abs(V - Vtank) > tol % 1 ml deviation allowed 
+    ox = oxidizerPropertiesTemperature('interp',T_mid, {'u_l', 'u_g', 'rho_l', 'rho_g'},opts);
+    x = ((U/m) - ox.u_l) / (ox.u_g - ox.u_l);
+    V = m*((1 - x)/ox.rho_l + x/ox.rho_g);
+    while abs(V - Vtank) > tol % 10 ml deviation allowed 
         T_mid = (T_up + T_low) / 2;
-        u_l = py.CoolProp.CoolProp.PropsSI('U','T',T_mid,'Q',0,'N2O');
-        u_g = py.CoolProp.CoolProp.PropsSI('U','T',T_mid,'Q',1,'N2O');
-        rho_l = py.CoolProp.CoolProp.PropsSI('D','T',T_mid,'Q',0,'N2O');
-        rho_g = py.CoolProp.CoolProp.PropsSI('D','T',T_mid,'Q',1,'N2O');
-        x = ((U/m) - u_l) / (u_g - u_l);
-        V = m*((1 - x)/rho_l + x/rho_g);
+        ox = oxidizerPropertiesTemperature('interp',T_mid, {'u_l', 'u_g', 'rho_l', 'rho_g'},opts);
+        x = ((U/m) - ox.u_l) / (ox.u_g - ox.u_l);
+        V = m*((1 - x)/ox.rho_l + x/ox.rho_g);
         if V > Vtank        % if fluid volume is larger than tank volume: Temperature is too high
             T_low = T_mid;
         else                % if fluid volume is smaller than tank volume: Temperature is too low
