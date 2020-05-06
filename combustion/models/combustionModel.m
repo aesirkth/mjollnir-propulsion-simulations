@@ -12,7 +12,11 @@ if oxidizerMass > 0
 
     % Characteristic velocity (from curve)
     cStar = characteristicVelocity(oxidizerMassFlow,fuelMassFlow);
-    ccTemperature = cStar^2 * opts.Gamma * ((opts.Gamma+1)/2)^(-(opts.Gamma+1)/(opts.Gamma-1)) * opts.ProductsMolecularWeight / 8.314;
+    
+    k = opts.Gamma;
+    
+    R = 8.314 / opts.ProductsMolecularWeight;
+    ccTemperature = cStar^2 * k / R * (2/(k+1))^((k+1)/(k-1));
     
     % Nozzle mass flow
     nozzleMassFlow = nozzleMassFlowModel(ccPressure,cStar,opts);
