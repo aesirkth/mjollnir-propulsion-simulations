@@ -13,7 +13,7 @@ function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,
     massFlow = oxidizerMassFlow + fuelMassFlow;
 
     % Thrust Force
-    if opts.extraOutput ~= 0
+    if opts.extraOutput == 1
         thrust = thrustModel(t, massFlow, ccPressure, opts.AmbientPressure, cStar, opts);
     else
         thrust = 0;

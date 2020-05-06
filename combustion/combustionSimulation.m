@@ -9,13 +9,14 @@ opts.input = struct( ...
 
 run("./combustion/derivedProperties");
 
-tol = 1e-8;
+tol = 1e-4;
 T = 50;
 
 opts.extraOutput = 0;
+model = @(t, y) tank_combustionOdeSystem(t, y, tankModel, opts);
+
 if tankModel ~= 2
 % set up combustion simulation
-model = @(t, y) tank_combustionOdeSystem(t, y, tankModel, opts);
 initialState = [...
 opts.FuelMass,...
 opts.FuelGrainInitialPortRadius,...
@@ -33,7 +34,6 @@ sol = ode45(model, [0 T], initialState, odeOpts);
 
 else
     % tank draining simulation
-    model = @(t, y_tank) tank_combustionOdeSystem(t, y_tank, tankModel, opts);
     initialState_tank = [...
         opts.tankInititalWallTemperature,...
         opts.tankInititalWallTemperature,...
@@ -48,6 +48,7 @@ te = sol.xe;
 
 fprintf("ODE solving done. reducing results\n");
 opts.extraOutput = 1;
+model = @(t, y) tank_combustionOdeSystem(t, y, tankModel, opts); % need to set this to get thrust...
 
 if isempty(te)
     burnTime = max(t);
