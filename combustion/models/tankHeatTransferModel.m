@@ -1,4 +1,5 @@
 function [temperatureGradient_l, temperatureGradient_g, m_l, m_g, Q_w_conv_in_l, Q_w_conv_in_g, T_wl, T_wg] = tankHeatTransferModel(opts ,T_wl, T_wg, m, Vtank, r_i, r_o, ox, air, massFlow)
+global tankTemperature
 %% Masses and equivalent filling levels
 
 m_l = (m - ox.rho_g * Vtank) / (1 - ox.rho_g/ox.rho_l);
@@ -35,13 +36,13 @@ end
 % Liquid Node
 
 % From wall to LN2O
-Q_w_conv_out_l = tankConvectiveHeatTransfer(r_i, ox.cp_l, ox.rho_l, ox.T_l, T_wl, L_l, ox.mu_l, ox.k_l, 0.021, 0.4);
+Q_w_conv_out_l = tankConvectiveHeatTransfer(r_i, ox.cp_l, ox.rho_l, tankTemperature, T_wl, L_l, ox.mu_l, ox.k_l, 0.021, 0.4);
 % From air to wall
 Q_w_conv_in_l = tankConvectiveHeatTransfer(r_o, air.cp, air.rho, opts.AmbientTemperature, T_wl, L_l, air.mu, air.k, 0.59, 0.25);
 
 % Gas node
 
-Q_w_conv_out_g = tankConvectiveHeatTransfer(r_i, ox.cp_g, ox.rho_g, ox.T_g, T_wg, L_g, ox.mu_g, ox.k_g, 0.021, 0.4);
+Q_w_conv_out_g = tankConvectiveHeatTransfer(r_i, ox.cp_g, ox.rho_g, tankTemperature, T_wg, L_g, ox.mu_g, ox.k_g, 0.021, 0.4);
 % From air to wall
 Q_w_conv_in_g = tankConvectiveHeatTransfer(r_o, air.cp, air.rho, opts.AmbientTemperature, T_wg, L_g, air.mu, air.k, 0.59, 0.25);
 
@@ -61,10 +62,6 @@ Q_w_cond_l2g = tankConductiveHeatTransfer(opts.tankThermalConductivity, T_wg, T_
 %% Virtual heat transfer (from liquid to gas) due to the change of the filling level 
 Q_fillinglvl = tankFillingLvlHeatTransfer(opts, r_o, r_i, ox.rho_l, massFlow, T_wl, T_wg);
 
-% global tankTemperature
-if (T_wg > opts.AmbientTemperature) %&& (T_wg > opts.AmbientTemperature) || ((T_wl < ox.T_l) && (T_wl < opts.AmbientTemperature))
-    a =1;
-end
 %% Calculate RHS of the heat transfer equation (temperature gradient)
 
 % Liquid Node

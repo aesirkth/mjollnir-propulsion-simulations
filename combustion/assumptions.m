@@ -36,7 +36,7 @@ opts.tankSpecificHeat = 896 ; % https://www.leichtmetall.eu/site/assets/files/da
 % opts.OxidizerDensity = oxidizerDensity; 
 % opts.OxidizerTankPressure = oxidizerVaporPressure; % Initial tank pressure
 opts.OxidizerTankSafetyMargin = 1.5;
-opts.OxidizerTankPressureDrop = 0.15; % Factor to drop oxidizer tank pressure linearly
+opts.OxidizerTankPressureDrop = 0.4; % Factor to drop oxidizer tank pressure linearly
 opts.CarbonAdditiveFraction = 0.01; % Fraction of carbon in the fuel grain
 opts.DesignOFRatio = 8; % The OF ratio used to size the oxidizer tank
 

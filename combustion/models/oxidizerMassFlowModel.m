@@ -5,10 +5,9 @@ if combustionChamberPressure < tankPressure
     massFlowSPI = opts.InjectorsCd * opts.InjectorsArea * sqrt(2* opts.OxidizerDensity * (tankPressure - combustionChamberPressure));
 
     % Calculate specific enthalpy downstream of injector assuming
-    tankEntropy = py.CoolProp.CoolProp.PropsSI('S','P',tankPressure,'Q',0,'N2O');                % mass specific entropy
-    downstreaminjectorSpecificEnthalpy = py.CoolProp.CoolProp.PropsSI('H','P',combustionChamberPressure,'S',tankEntropy,'N2O'); % get downstream enthalpy assuming constant entropy
-    downstreaminjectorDensity = py.CoolProp.CoolProp.PropsSI('D','P',combustionChamberPressure,'S',tankEntropy,'N2O');
-    massFlowHEM = opts.InjectorsCd * opts.InjectorsArea * downstreaminjectorDensity * sqrt(2 * (tankSpecificEnthalpy - downstreaminjectorSpecificEnthalpy));
+    ox_upstream = oxidizerPropertiesPressure('interp', tankPressure,[], {'s_l'}, opts);
+    ox_downstream = oxidizerPropertiesPressure('coolprop', combustionChamberPressure,ox_upstream.s_l, {'h_sconst', 'rho_sconst'}, opts);
+    massFlowHEM = opts.InjectorsCd * opts.InjectorsArea * ox_downstream.rho_sconst * sqrt(2 * (tankSpecificEnthalpy - ox_downstream.h_sconst));
     massFlow = (kappa * massFlowSPI + massFlowHEM) / (1 + kappa);
     
 %     py.CoolProp.CoolProp.PhaseSI('P',combustionChamberPressure,'H',downstreaminjectorSpecificEnthalpy,'N2O')

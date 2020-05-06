@@ -6,6 +6,6 @@ function [value,isterminal,direction] = tankOdeSystemEvents(t, X)
     value = [X(1), X(end)];
 
     % Terminate simulation when hitting the ground
-    isterminal = [1 1];
-    direction = [0 0];
+    isterminal = [1];
+    direction = [0];
 end
