@@ -24,28 +24,30 @@ combustionAssumptions = combustionSimulationAssumptions()
 combustionState = combustionSimulation(combustionAssumptions, nozzleState, tankModel)
 combustionOpts = combustionState.opts
 %%
-figure('Name', 'Combustion');
-%%
+Fig = figure(1);
+set(Fig, 'Name', 'Combustion');
 plotCombustion(combustionState, tankModel);
+drawnow
 %%
 physicalDesignAssumptions = physicalDesignSimulationAssumptions(nozzleState, combustionState)
 physicalDesignState = physicalDesignSimulation(physicalDesignAssumptions, nozzleState, combustionState)
 physicalDesignOpts = physicalDesignState.opts
 %%
-figure('Name', 'Physical design');
-%%
+Fig = figure(2);
+set(Fig, 'Name', 'Physical design');
 plotPhysicalDesign(physicalDesignState,tankModel);
-
+drawnow
 %%
 flightAssumptions = flightSimulationAssumptions
 flightState = flightSimulation(flightAssumptions, nozzleState, combustionState, physicalDesignState)
 flightOpts = flightState.opts
 %%
-figure('Name', 'Flight physics');
-%%
+Fig = figure(3);
+set(Fig, 'Name', 'Flight physics');
 plotFlightPhysics(flightState,tankModel);
-
+drawnow
 %%
-figure('Name', 'Flight');
-%%
+Fig = figure(4);
+set(Fig, 'Name', 'Flight');
 plotFlight(flightState, tankModel);
+drawnow
