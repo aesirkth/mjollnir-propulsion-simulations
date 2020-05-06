@@ -20,7 +20,8 @@ opts.OxidizerVolumeWithExtraVolumeInLiter = opts.OxidizerVolumeWithExtraVolume *
 opts.ExtraOxidizerSpaceInTank = opts.OxidizerVolumeWithExtraVolume - opts.OxidizerVolume;
 opts.ExtraOxidizerSpaceInTankInLiters = opts.OxidizerVolumeWithExtraVolumeInLiter - opts.OxidizerVolumeInLiter;
 
-[oxTankLength, oxTankMinThickness, oxTankThickness, oxTankMass, oxTankVolume] = correctedCapsuleTank(opts.OxidizerTankRadius, opts.OxidizerVolumeWithExtraVolume, opts.OxidizerTankDesignPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity);
+rounding = 0.1;
+[oxTankLength, oxTankMinThickness, oxTankThickness, oxTankMass, oxTankVolume] = correctedCapsuleTank(opts.OxidizerTankRadius, opts.OxidizerVolumeWithExtraVolume, opts.OxidizerTankDesignPressure, opts.OxidizerTankSigma, opts.OxidizerTankDensity, rounding);
 
 opts.OxidizerTankMinimumThickness = oxTankMinThickness;
 opts.OxidizerTankMinimumThicknessInMm = oxTankMinThickness * 1e3;
@@ -40,7 +41,7 @@ opts.ccDesignPressure = opts.ccPressure * opts.ccSafetyMargin; % Including safet
 ccMinThickness = capsuleTankThickness(opts.ccRadius, opts.ccDesignPressure, opts.ccSigma);
 opts.ccMinimumThickness = ccMinThickness;
 opts.ccMinimumThicknessInMm = ccMinThickness * 1e3;
-opts.ccThicknessInMm = ceil(opts.ccMinimumThicknessInMm / 0.5) * 0.5; % Round to nearest 0.5 mm
+opts.ccThicknessInMm = ceil(opts.ccMinimumThicknessInMm / rounding) * rounding; % Round to nearest 0.5 mm
 opts.ccThickness = opts.ccThicknessInMm / 1e3;
 opts.ccAllowablePressure = tankAllowablePressure(opts.ccRadius, opts.ccThickness, opts.ccSigma);
 
