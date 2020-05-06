@@ -1,4 +1,4 @@
-function [dXdt,fuelMassFlow,regressionRate,ccPressureVariation,temperatureGradient_l,temperatureGradient_g,internalEnegeryGradient,oxidizerMassFlow,thrust,ccTemperature, tankPressure,tankTemperature,wallTemperature_l, wallTemperature_g] = tank_combustionOdeSystem(t, X, tankModel, opts)
+function [dXdt,fuelMassFlow,regressionRate,ccPressureVariation,temperatureGradient_l,temperatureGradient_g,internalEnegeryGradient,oxidizerMassFlow,thrust, exhaustMach, exhaustPressure, thrustCoefficient,ccTemperature, tankPressure,tankTemperature,wallTemperature_l, wallTemperature_g] = tank_combustionOdeSystem(t, X, tankModel, opts)
 persistent i
 if isempty(i)
     i = 1;
@@ -7,7 +7,7 @@ end
 i = i +1;
 
 if tankModel == 0 
-    [dXdt, regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust,ccTemperature,tankPressure] = ...
+    [dXdt, regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust, exhaustMach, exhaustPressure, thrustCoefficient,ccTemperature,tankPressure] = ...
         combustionOdeSystem(t, X, opts);
     temperatureGradient_l = NaN; temperatureGradient_g = NaN; internalEnegeryGradient = NaN; wallTemperature_l = NaN; wallTemperature_g = NaN; tankTemperature = NaN;
 elseif tankModel == 1
@@ -15,7 +15,7 @@ elseif tankModel == 1
     Xtank = X(4:7);
     [dXtank_dt, temperatureGradient_l, temperatureGradient_g, internalEnegeryGradient, oxidizerMassFlow, tankPressure,tankTemperature,wallTemperature_l, wallTemperature_g] =...
         tankOdeSystem(t, Xtank, Xcombustion, opts);
-    [dXcombustion_dt, regressionRate,ccPressureVariation,fuelMassFlow,thrust,ccTemperature] = ...
+    [dXcombustion_dt, regressionRate,ccPressureVariation,fuelMassFlow,thrust, exhaustMach, exhaustPressure, thrustCoefficient,ccTemperature] = ...
         combustionOdeSystem_tankModel(t, Xtank, Xcombustion, oxidizerMassFlow, opts);    
     dXdt = [dXcombustion_dt; dXtank_dt];
 elseif tankModel == 2

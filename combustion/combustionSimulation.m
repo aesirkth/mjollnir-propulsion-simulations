@@ -75,6 +75,9 @@ tankInternalEnergyGradient = zeros(N,1);
 ccPressureVariation = zeros(N,1);
 oxidizerMassFlow = zeros(N,1);
 thrust = zeros(N,1);
+exhaustMach = zeros(N,1);
+exhaustPressure = zeros(N,1);
+thrustCoefficient = zeros(N,1);
 ccTemperature = zeros(N,1);
 tankPressure = zeros(N,1);
 oxidizerTemperature = zeros(N,1);
@@ -83,7 +86,7 @@ wallTemperatureGNode = zeros(N,1);
 global tankTemperature
 tankTemperature = opts.OxidizerTemperature;
 for i = 1:N
-    [~, fuelMassFlow(i),regressionRate(i),ccPressureVariation(i),tankWallTemperatureGradientLNode(i),tankWallTemperatureGradientGNode(i),tankInternalEnergyGradient(i),oxidizerMassFlow(i),thrust(i),ccTemperature(i),tankPressure(i),oxidizerTemperature(i),wallTemperatureLNode(i),wallTemperatureGNode(i)] = model(t(i),state(i, :)');
+    [~, fuelMassFlow(i),regressionRate(i),ccPressureVariation(i),tankWallTemperatureGradientLNode(i),tankWallTemperatureGradientGNode(i),tankInternalEnergyGradient(i),oxidizerMassFlow(i),thrust(i), exhaustMach(i), exhaustPressure(i), thrustCoefficient(i), ccTemperature(i),tankPressure(i),oxidizerTemperature(i),wallTemperatureLNode(i),wallTemperatureGNode(i)] = model(t(i),state(i, :)');
 end
 %%
 combustionState = struct();
@@ -103,6 +106,9 @@ combustionState.oxidizerMassFlow = oxidizerMassFlow;
 combustionState.fuelMassFlow = fuelMassFlow;
 combustionState.idealThrust = thrust;
 combustionState.thrust = thrust * opts.ThrustEfficiency;
+combustionState.exhaustMach = exhaustMach;
+combustionState.exhaustPressure = exhaustPressure;
+combustionState.thrustCoefficient = thrustCoefficient;
 combustionState.ccTemperature = ccTemperature;
 combustionState.tankPressure = tankPressure;
 combustionState.oxidizerTemperature = oxidizerTemperature;

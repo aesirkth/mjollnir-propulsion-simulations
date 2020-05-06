@@ -9,7 +9,7 @@ burnOutIndex = burnOutIndex(1);
 
 if tankModel ~= 2
 
-setupSubplots(3,3)
+setupSubplots(4,3)
 nextPlot('');
 
 plot(t,combustionState.regressionRate*1000)
@@ -40,6 +40,42 @@ legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
 nextPlot([filepath filesep 'portRadius'])
+
+plot(t,combustionState.thrustCoefficient')
+hold 
+xlim([0 t(burnOutIndex)]);
+xlabel('Time [s]')
+ylabel('thrustCoefficient')
+title('thrustCoefficient over time')
+legend('show', 'Location', 'best');
+scaleLims(0.1);
+grid('on')
+nextPlot([filepath filesep 'allPressure'])
+
+plot(t,combustionState.tankPressure/1e6', 'DisplayName', 'Tank pressure')
+hold on;
+plot(t,combustionState.ccPressure/1e6', 'DisplayName', 'CC pressure')
+plot(t,combustionState.exhaustPressure/1e6', 'DisplayName', 'Exhaust pressure')
+hold 
+xlim([0 t(burnOutIndex)]);
+xlabel('Time [s]')
+ylabel('Pressure [MPa]')
+title('Pressure over time')
+legend('show', 'Location', 'best');
+scaleLims(0.1);
+grid('on')
+nextPlot([filepath filesep 'allPressure'])
+
+plot(t,combustionState.exhaustMach', 'DisplayName', 'Exhaust mach')
+hold 
+xlim([0 t(burnOutIndex)]);
+xlabel('Time [s]')
+ylabel('Mach [1]')
+title('Mach over time')
+legend('show', 'Location', 'best');
+scaleLims(0.1);
+grid('on')
+nextPlot([filepath filesep 'mach'])
 
 plot(t,combustionState.ccPressure/1e6', 'HandleVisibility','off')
 hold on

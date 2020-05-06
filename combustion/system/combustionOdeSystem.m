@@ -1,5 +1,5 @@
 % The simulation system
-function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust,ccTemperature, tankPressure] = combustionOdeSystem(t, X, opts)
+function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,thrust, exhaustMach, exhaustPressure, thrustCoefficient,ccTemperature, tankPressure] = combustionOdeSystem(t, X, opts)
     % X is of the form [fuelMass, portRadius, ccPressure, oxidizerMass]
     fuelMass = X(1);
     portRadius = X(2);
@@ -14,9 +14,12 @@ function [dXdt,regressionRate,ccPressureVariation,oxidizerMassFlow,fuelMassFlow,
 
     % Thrust Force
     if opts.extraOutput == 1
-        thrust = thrustModel(t, massFlow, ccPressure, opts.AmbientPressure, cStar, opts);
+        [thrust, exhaustMach, exhaustPressure, thrustCoefficient] = thrustModel(t, massFlow, ccPressure, opts.AmbientPressure, cStar, opts);
     else
         thrust = 0;
+        exhaustMach = 0;
+        exhaustPressure = 0;
+        thrustCoefficient = 0;
     end
     
     % Returning differential vector
