@@ -32,9 +32,9 @@ opts.tankInititalWallTemperature = opts.OxidizerTemperature; % assume we insulat
 % opts.OxidizerDensity = oxidizerDensity; 
 % opts.OxidizerTankPressure = oxidizerVaporPressure; % Initial tank pressure
 opts.OxidizerTankSafetyMargin = 1.5;
-opts.OxidizerTankPressureDrop = 0.4; % Factor to drop oxidizer tank pressure linearly
+opts.OxidizerTankPressureDrop = 0.46; % Factor to drop oxidizer tank pressure linearly
 opts.CarbonAdditiveFraction = 0.02; % Fraction of carbon in the fuel grain
-opts.DesignOFRatio = 7.5; % The OF ratio used to size the oxidizer tank
+opts.DesignOFRatio = 8; % The OF ratio used to size the oxidizer tank
 
 
 opts.ccCombustionPressure = 4.5e6;  % Estimation of combustion chamber pressure - used as design pressure
@@ -50,7 +50,7 @@ opts.CombustionChamberWallThicknessInMm = 3;
 opts.FuelGrainContainerWallThicknessInMm = 2;
 opts.FuelGrainContainerDensity = 500;
 
-opts.FuelGrainLengthInCm = 30;
+opts.FuelGrainLengthInCm = 33;
 opts.FuelGrainInitialPortRadiusInCm = 2.5;
 
 opts.UnusableFuelMarginThicknessInCm = 0.8;
@@ -62,7 +62,7 @@ opts.ProductsMolecularWeight = productsMolecularWeight;
 [dischargeCoefficient, holeDiameterMm] = injectorProperties();
 opts.InjectorsCd = dischargeCoefficient;
 opts.InjectorsDiameter = holeDiameterMm / 1e3;
-opts.NumberOfInjectors = 60;
+opts.NumberOfInjectors = 38;
 
 opts.CombustionEfficiency = 0.9;
 
