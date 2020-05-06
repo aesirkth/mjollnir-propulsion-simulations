@@ -2,12 +2,12 @@ function combustionState = combustionSimulation(opts, nozzleState, tankModel)
 addpath('./combustion/models');
 addpath('./combustion/properties');
 addpath('./combustion/system');
+addpath('./physicalDesign/models');
+run("./combustion/derivedProperties");
 
 opts.input = struct( ...
     "nozzleState", nozzleState ...
     );
-
-run("./combustion/derivedProperties");
 
 tol = 1e-4;
 T = 50;

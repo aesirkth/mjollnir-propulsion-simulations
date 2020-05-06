@@ -14,17 +14,13 @@ opts.AmbientTemperature = 293.15;
 
 opts.OxidizerTemperature = 293.15;
 
+run("../physicalDesign/assumptions.m"); % lol
+opts.tankDiameterInCm = opts.OxidizerTankDiameterInCm
+
 % b) tank properties
 opts.tankInititalWallTemperature = opts.AmbientTemperature;
 
 % tank material properties (check if to define here or somewhere else!!!)
-
-opts.tankLength = 2 - 0.3216 - 0.0078953;
-opts.tankDiameter = 0.15;
-opts.tankThickness = 0.003;
-opts.tankDensity = 2700;
-opts.tankThermalConductivity = 195; % average value from datasheet (170-220) 
-opts.tankSpecificHeat = 896 ; % https://www.leichtmetall.eu/site/assets/files/datenblatt/6082_Produktdatenblatt_A4-en_us.pdf
 
 %% Combustion assumptions
 

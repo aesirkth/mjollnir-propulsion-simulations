@@ -1,4 +1,4 @@
-function opts = oxidizerProperties_create_interpolationtables(Tmin,Tmax,Tstep,pmin,pmax,pstep)
+function opts = oxidizerProperties_create_interpolationtables(opts, Tmin,Tmax,Tstep,pmin,pmax,pstep)
 
 % Temperature dependency
 opts.oxidizerData.T = Tmin:Tstep:Tmax;
@@ -32,4 +32,5 @@ for ii = 1:length(opts.oxidizerData.p)
     opts.oxidizerData.s_l(ii) = py.CoolProp.CoolProp.PropsSI('S','P',opts.oxidizerData.p(ii),'Q',0,'N2O'); 
 %     opts.oxidizerData.h_sconst(ii) = py.CoolProp.CoolProp.PropsSI('H','P',opts.oxidizerData.p(ii),'S',opts.oxidizerData.s_l(ii),'N2O'); % get enthalpy assuming constant entropy
 %     opts.oxidizerData.rho_sconst(ii) = py.CoolProp.CoolProp.PropsSI('D','P',opts.oxidizerData.p(ii),'S',opts.oxidizerData.s_l(ii),'N2O'); % get density assuming constant entropy
+end
 end
