@@ -31,9 +31,9 @@ function [dXtank_dt, temperatureGradient_l, temperatureGradient_g, internalEnege
         ccPressure = Xcc(3);
     end
     
-    tankVolume = opts.OxidizerVolumeWithExtraVolume; 
-    r_o = opts.tankDiameter/2;  
-    r_i = r_o - opts.tankThickness;
+    tankVolume = opts.OxidizerVolume; 
+    r_o = opts.tankDiameter/2;
+    r_i = opts.tankDiameter/2 - opts.tankThickness;  
     
     %% Set tank pressure according to constraint for bisection given in eq. (22) and (23) in Zimmerman2013.pdf
     % set temperature boundaries for bisection algorithm according to
