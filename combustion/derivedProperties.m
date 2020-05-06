@@ -26,6 +26,12 @@ opts.FuelGrainContainerWallThickness = opts.FuelGrainContainerWallThicknessInMm 
 opts.FuelGrainInitialPortRadius = opts.FuelGrainInitialPortRadiusInCm / 100;
 opts.UnusableFuelMarginThickness = opts.UnusableFuelMarginThicknessInCm / 100;
 
+% Fuel shape correction factor
+R = opts.FuelGrainInitialPortRadius;
+a = opts.CombustionChamberSinusShapeAmplitude;
+dc = @(theta) sqrt((0.94*R+R*a*sin(8*theta)).^2+(R*a*8*cos(8*theta)).^2);
+opts.CombustionChamberInitialPerimeter = integral(dc,0,2*pi);
+
 opts.TotalFuelGrainRadius = opts.CombustionChamberRadius - opts.CombustionChamberWallThickness - opts.FuelGrainContainerWallThickness;
 opts.UsableFuelGrainRadius = opts.TotalFuelGrainRadius - opts.UnusableFuelMarginThickness;
 
