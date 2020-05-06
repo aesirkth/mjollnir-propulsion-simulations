@@ -31,16 +31,16 @@ function [dXtank_dt, temperatureGradient_l, temperatureGradient_g, internalEnege
         ccPressure = Xcc(3);
     end
     
-    tankVolume = opts.OxidizerVolume; 
-    r_i = opts.tankDiameter/2;  
-    r_o = r_i + opts.tankThickness;
+    tankVolume = opts.OxidizerVolumeWithExtraVolume; 
+    r_o = opts.tankDiameter/2;  
+    r_i = r_o - opts.tankThickness;
     
     %% Set tank pressure according to constraint for bisection given in eq. (22) and (23) in Zimmerman2013.pdf
     % set temperature boundaries for bisection algorithm according to
     % temperature of previous time step
     global tankTemperature
-    T_low = tankTemperature - 1;
-    T_up = tankTemperature + 1;
+    T_low = tankTemperature - 2;
+    T_up = tankTemperature + 2;
     tankTemperature = tankVolumeConstraint_BisectionAlgorithm(m, U, tankVolume, T_low, T_up, opts,1E-5);
     
     %% Get fluid properties: N2O
