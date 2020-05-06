@@ -37,3 +37,5 @@ plotFlightPhysics(flightState);
 figure('Name', 'Flight');
 %%
 plotFlight(flightState);
+
+close all
