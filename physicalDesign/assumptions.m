@@ -7,7 +7,7 @@ opts.RocketExternalDiameterInCm = 15;
 
 [density, sigma, thermalConductivity, specificHeat] = oxidizerTankMaterialProperties()
 
-opts.ExtraVolumeFactor = 0.1; % Factor of "extra" volume added to the oxidizer tank
+opts.ExtraVolumeFactor = 0.05; % Factor of "extra" volume added to the oxidizer tank
 opts.OxidizerTankDiameterInCm = opts.RocketExternalDiameterInCm;
 opts.OxidizerTankDensity  = density;
 opts.OxidizerTankSigma  = sigma;
