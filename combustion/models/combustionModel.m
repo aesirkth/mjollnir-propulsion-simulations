@@ -11,7 +11,7 @@ if oxidizerMass > 0
     fuelMassFlow = fuelMassFlowModel(regressionRate,portRadius,opts);
 
     % Characteristic velocity (from curve)
-    cStar = characteristicVelocity(oxidizerMassFlow,fuelMassFlow);
+    cStar = characteristicVelocity(opts,ccPressure,oxidizerMassFlow,fuelMassFlow);
     
     k = opts.Gamma;
     
