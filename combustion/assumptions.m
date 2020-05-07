@@ -44,7 +44,7 @@ opts.ccInitialPressure = 101325;
 opts.FuelDensity = fuelDensity;
 opts.CarbonDensity = carbonAdditiveDensity;
 
-opts.CombustionChamberDiameterInCm = 15; % External diameter
+opts.CombustionChamberDiameterInCm = 15; % Not External diameter
 opts.CombustionChamberSinusShapeAmplitude = 0.00001;   % Proportion of initial port radius
 opts.CombustionChamberWallThicknessInMm = 3;
 opts.FuelGrainContainerWallThicknessInMm = 2;

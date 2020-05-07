@@ -3,7 +3,7 @@
 %
 % This file contains assumptions for the physical design simulation of the Eyjafjallaj??kull hybrid rocket engine.
 
-opts.RocketExternalDiameterInCm = 15;
+opts.RocketExternalDiameterInCm = 16;
 
 [density, sigma, thermalConductivity, specificHeat] = oxidizerTankMaterialProperties()
 
