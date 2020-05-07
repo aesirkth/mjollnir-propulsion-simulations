@@ -9,7 +9,7 @@ run("./setup");
 1: simulation with equilibrium model, coupled with combustion
 2: simulation with equilibrium model, draining of tank to atmosphere
 %}
-tankModel = 0;
+tankModel = 1;
 
 %%
 % setPlotMode("save");

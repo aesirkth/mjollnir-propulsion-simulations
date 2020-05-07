@@ -19,4 +19,4 @@ opts.OxidizerTankSpecificHeat = specificHeat;
 opts.ccDensity  = density;
 opts.ccSigma  = sigma;
 
-opts.EngineFixedMass = 6;
+opts.EngineFixedMass = 10;

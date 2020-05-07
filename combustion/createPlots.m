@@ -40,17 +40,30 @@ legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
 nextPlot([filepath filesep 'portRadius'])
+% 
+% plot(t,combustionState.thrustCoefficient')
+% hold 
+% xlim([0 t(burnOutIndex)]);
+% xlabel('Time [s]')
+% ylabel('thrustCoefficient')
+% title('thrustCoefficient over time')
+% legend('show', 'Location', 'best');
+% scaleLims(0.1);
+% grid('on')
+% nextPlot([filepath filesep 'allPressure'])
 
-plot(t,combustionState.thrustCoefficient')
+plot(t,combustionState.tankPressure./combustionState.ccPressure, 'DisplayName', 'Tank/cc pressure')
+hold on;
+plot(t,combustionState.ccPressure./combustionState.exhaustPressure, 'DisplayName', 'CC/exhaust pressure')
 hold 
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
-ylabel('thrustCoefficient')
-title('thrustCoefficient over time')
+ylabel('Pressure ratio [1]')
+title('Pressure ratio over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
-nextPlot([filepath filesep 'allPressure'])
+nextPlot([filepath filesep 'pressureRatio'])
 
 plot(t,combustionState.tankPressure/1e6', 'DisplayName', 'Tank pressure')
 hold on;
@@ -147,8 +160,8 @@ end
 
 plot(t,combustionState.tankPressure/1e6, 'HandleVisibility','off')
 hold on;
-plot([t(1) t(end)], [combustionState.opts.OxidizerPressure, combustionState.opts.OxidizerPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
-plot([t(1) t(end)], [combustionState.opts.OxidizerPressure, combustionState.opts.OxidizerPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
+plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
+plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
 xlim([0 t(burnOutIndex)]);
 xlabel('Time [s]')
 ylabel('Oxidizer tank pressure [MPa]')

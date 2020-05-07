@@ -77,7 +77,7 @@ rounding = 0.1;
 [oxTankLength, oxTankMinThickness, oxTankThickness, oxTankMass, oxTankVolume] = correctedCapsuleTank(...
   opts.OxidizerTankRadius, ...
   opts.OxidizerVolumeWithExtraVolume, ...
-  opts.OxidizerPressure * opts.OxidizerTankSafetyMargin, ...
+  opts.OxidizerTankPressure * opts.OxidizerTankSafetyMargin, ...
   opts.OxidizerTankSigma, ...
   opts.OxidizerTankDensity, ...
   rounding);
@@ -89,4 +89,19 @@ opts.tankThickness = oxTankThickness;
 opts.tankDensity = opts.OxidizerTankDensity;
 opts.tankThermalConductivity = opts.OxidizerTankThermalConductivity;
 opts.tankSpecificHeat = opts.OxidizerTankSpecificHeat;
+
+
+run("./properties/cstarInterpolationTable")
+
+Height = 21;
+Width = length(cstarTable) / Height;
+
+pressures = cstarTable(:,1);
+ofRatios = cstarTable(:,2);
+cStars = cstarTable(:,3);
+
+opts.cstarInterpol.pressures = reshape(pressures, Height, Width)';
+opts.cstarInterpol.ofRatios = reshape(ofRatios, Height, Width)';
+opts.cstarInterpol.cStars = reshape(cStars, Height, Width)';
+
 

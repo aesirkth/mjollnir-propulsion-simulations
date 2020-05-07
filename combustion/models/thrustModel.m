@@ -3,10 +3,10 @@ function [thrust, exhaustMach, exhaustPressure, thrustCoefficient] = thrustModel
     func = @(M) opts.input.nozzleState.NozzleExhaustArea / opts.input.nozzleState.NozzleThroatArea - 1/M*...
         (2/(opts.Gamma+1)*(1+(opts.Gamma-1)/2*M^2))^((opts.Gamma+1)/2/(opts.Gamma-1));
     
-    k = opts.Gamma;
+    k = opts.NozzleGamma;
     
     Me = fzero(func,1.5);
-    pe = ccPressure*(1+(opts.Gamma-1)/2*Me^2)^(opts.Gamma/(1-opts.Gamma));
+    pe = ccPressure*(1+(k-1)/2*Me^2)^(k/(1-k));
     
     %if Me < 1.0
        %error("Me < 1.0 (%.8f < 1.0)", Me); 

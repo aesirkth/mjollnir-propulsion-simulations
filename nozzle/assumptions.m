@@ -5,11 +5,13 @@
 
 %% oh no
 
-opts.NozzleDesignGamma = 1.2;
+[gamma, nozzleGamma, productsMolecularWeight, nozzleProductsMolecularWeight] = combustionProperties();
+
+opts.NozzleDesignGamma = nozzleGamma;
 opts.NozzleDesignMassFlow = 2.6;
 opts.NozzleDesignCStar = 1600;
 
 opts.NozzleDesignCombustionPressureInMpa = 3.5;
 opts.NozzleExpansionPressureInAtmospheres = 1;
 
-opts.NozzleEfficiency = 0.9;
+opts.NozzleEfficiency = 0.9; % multiplies thrust at the end...

@@ -31,6 +31,7 @@ opts.tankInititalWallTemperature = opts.OxidizerTemperature; % assume we insulat
 % coolprop (see above)
 % opts.OxidizerDensity = oxidizerDensity; 
 % opts.OxidizerTankPressure = oxidizerVaporPressure; % Initial tank pressure
+opts.OxidizerTankPressure = 6e6; % 6 MPa
 opts.OxidizerTankSafetyMargin = 1.5;
 opts.OxidizerTankPressureDrop = 0.46; % Factor to drop oxidizer tank pressure linearly
 opts.CarbonAdditiveFraction = 0.02; % Fraction of carbon in the fuel grain
@@ -45,7 +46,7 @@ opts.FuelDensity = fuelDensity;
 opts.CarbonDensity = carbonAdditiveDensity;
 
 opts.CombustionChamberDiameterInCm = 15; % Not External diameter
-opts.CombustionChamberSinusShapeAmplitude = 0.00001;   % Proportion of initial port radius
+opts.CombustionChamberSinusShapeAmplitude = 1/8; % Proportion of initial port radius
 opts.CombustionChamberWallThicknessInMm = 3;
 opts.FuelGrainContainerWallThicknessInMm = 2;
 opts.FuelGrainContainerDensity = 500;
@@ -55,14 +56,16 @@ opts.FuelGrainInitialPortRadiusInCm = 2.5;
 
 opts.UnusableFuelMarginThicknessInCm = 0.8;
 
-[gamma, productsMolecularWeight] = combustionProperties();
+[gamma, nozzleGamma, productsMolecularWeight, nozzleProductsMolecularWeight] = combustionProperties();
 opts.Gamma = gamma;
+opts.NozzleGamma = gamma;
 opts.ProductsMolecularWeight = productsMolecularWeight;
+opts.NozzleProductsMolecularWeight = nozzleProductsMolecularWeight;
 
 [dischargeCoefficient, holeDiameterMm] = injectorProperties();
 opts.InjectorsCd = dischargeCoefficient;
 opts.InjectorsDiameter = holeDiameterMm / 1e3;
 opts.NumberOfInjectors = 38;
 
-opts.CombustionEfficiency = 0.9;
+opts.CombustionEfficiency = 0.9; % multiplies thrust at the end...
 
