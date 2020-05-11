@@ -93,7 +93,7 @@ opts.tankSpecificHeat = opts.OxidizerTankSpecificHeat;
 
 run("./properties/cstarInterpolationTable")
 
-Height = 21;
+Height = 11;
 Width = length(cstarTable) / Height;
 
 pressures = cstarTable(:,1);
