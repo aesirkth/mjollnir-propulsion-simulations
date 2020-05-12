@@ -19,12 +19,14 @@ offset = 0;
 plotCombustionChamber(rCC, ccWallThickness, casingThickness, unusableMarginThickness, initialPortRadius, fuelGrainLength, offset);
 setupPlot(rCC, "Combustion chamber");
 legend('show', 'location', 'southoutside')
+axis tight
 
 nextPlot([filepath filesep "fuelGrain"], 400, 800);
 hold on
 plotOxidizerTank(rOxidTank, lOxidTank, tOxidTank, 0);
 setupPlot(rOxidTank, "Oxidizer tank");
 legend('show', 'location', 'best outside')
+axis tight
 
 nextPlot([filepath filesep "oxidizerTank"], 400, 800);
 hold on
@@ -36,6 +38,8 @@ offset = fuelGrainLength + 4*rCC;
 plotOxidizerTank(rOxidTank, lOxidTank, tOxidTank, offset);
 setupPlot(max(rOxidTank, rCC), "Full system");
 legend('show', 'location', 'best outside')
+axis tight
+
 nextPlot([filepath filesep "fullAssembly"], 400, 800);
 
 function plotCombustionChamber(radius, wallThickness, fuelGrainCasingThickness, unusableFuelThickness, initialPortRadius, fuelGrainLength, yOffset)

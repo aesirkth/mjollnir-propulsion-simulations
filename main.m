@@ -12,8 +12,8 @@ run("./setup");
 tankModel = 1;
 
 %%
-% setPlotMode("save");
-setPlotMode("show");
+setPlotMode("save");
+% setPlotMode("show");
 
 %%
 nozzleAssumptions = nozzleSimulationAssumptions()

@@ -16,7 +16,6 @@ function storeFigure(name, varargin)
         h = varargin{2};
     end
     
-    axis tight
     set(gcf,'Resize','off')
     set(gcf,'Position',[x y w h])
     set(gca,'FontSize',14)

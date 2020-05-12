@@ -118,7 +118,7 @@ nextPlot([filepath filesep 'mach'])
 plot(t,combustionState.ccPressure/1e6', 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
-plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]*combustionState.opts.ccCombustionPressureSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
+plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]*combustionState.opts.ccCombustionPressureSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Burst pressure')
 xlim([TSTART TEND]);
 xlabel('Time [s]')
 ylabel('CC Pressure [MPa]')
@@ -190,7 +190,7 @@ end
 plot(t,combustionState.tankPressure/1e6, 'LineWidth', 2, 'HandleVisibility','off')
 hold on;
 plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure')
-plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Design pressure (incl. safety)')
+plot([t(1) t(end)], [combustionState.opts.OxidizerTankPressure, combustionState.opts.OxidizerTankPressure]*combustionState.opts.OxidizerTankSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Burst pressure')
 xlim([TSTART TEND]);
 xlabel('Time [s]')
 ylabel('Oxidizer tank pressure [MPa]')
