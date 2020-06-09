@@ -31,13 +31,13 @@ plot(r(1,1)/1e3, r(1,2)/1e3, '*', 'DisplayName', 'Initial')
 plot(r(apogeeIndex,1)/1e3, r(apogeeIndex,2)/1e3, 'b*', 'DisplayName', 'Apogee')
 plot(r(burnOutIndex,1)/1e3, r(burnOutIndex,2)/1e3, 'ro', 'DisplayName', 'Burnout')
 
-xlabel("downrange [km]");
-ylabel("altitude [km]");
+xlabel("Downrange [km]");
+ylabel("Altitude [km]");
 title("2D trajectory");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/trajectory");
+nextPlot([filepath filesep "trajectory"]);
 
 hold on
 lims = [min(t) max(t)];
@@ -49,117 +49,129 @@ plot(t, altitude/1e3, 'LineWidth', 2, 'HandleVisibility','off');
 plot(t(apogeeIndex), altitude(apogeeIndex)/1e3, 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), altitude(burnOutIndex)/1e3, 'ro', 'DisplayName', 'Burnout')
 
-xlabel("time [s]");
+xlabel("Time [s]");
 ylabel("Altitude [km]");
 title("Altitude over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/altitudeOverTime");
+nextPlot([filepath filesep "altitudeOverTime"]);
 
 plot(t, vMag, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), vMag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), vMag(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
+xlabel("Time [s]");
 ylabel("Velocity [m/s]");
 title("Velocity over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/vMagOverTime");
+nextPlot([filepath filesep "vMagOverTime"]);
 
 plot(t, mach, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), mach(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), mach(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
+xlabel("Time [s]");
 ylabel("Mach");
 title("Mach over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/machOverTime");
+nextPlot([filepath filesep "machOverTime"]);
+
+plot(altitude / 1000, mach, 'LineWidth', 2, 'HandleVisibility','off');
+hold on
+plot(altitude(apogeeIndex) / 1000, mach(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
+plot(altitude(burnOutIndex) / 1000, mach(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
+xlabel("Altitude [km]");
+ylabel("Mach");
+title("Mach over altitude");
+legend('show', 'Location', 'best');
+grid on
+scaleLims(0.1);
+nextPlot([filepath filesep "machOverAltitude"]);
 
 plot(altitude / 1000, vMag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(altitude(1) / 1000, vMag(1), '*', 'DisplayName', 'Initial')
 plot(altitude(apogeeIndex) / 1000, vMag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(altitude(burnOutIndex) / 1000, vMag(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("altitude [km]");
-ylabel("velocity [m/s]");
+xlabel("Altitude [km]");
+ylabel("Velocity [m/s]");
 title("Velocity as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/velocityOverAltitude");
+nextPlot([filepath filesep "velocityOverAltitude"]);
 
 
 plot(t, abs(acceleration)/9.8066, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), abs(acceleration(apogeeIndex))/9.8066, 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), abs(acceleration(burnOutIndex))/9.8066, 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
-ylabel("acceleration [g]");
+xlabel("Time [s]");
+ylabel("Acceleration [g]");
 title("Acceleration over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/accelerationOverTime");
+nextPlot([filepath filesep "accelerationOverTime"]);
 
 % mass = massModel(t, flightOpts.DryMass, propellantMass);
 plot(t, drag, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
 plot(t(apogeeIndex), drag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), drag(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
-ylabel("drag [N]");
+xlabel("Time [s]");
+ylabel("Drag [N]");
 title("Drag over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/dragOverTime");
+nextPlot([filepath filesep "dragOverTime"]);
 
 plot(altitude / 1000, drag, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(altitude(1) / 1000, drag(1), '*', 'DisplayName', 'Initial')
 plot(altitude(apogeeIndex) / 1000, drag(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(altitude(burnOutIndex) / 1000, drag(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("altitude [km]");
-ylabel("drag [N]");
+xlabel("Altitude [km]");
+ylabel("Drag [N]");
 title("Drag as function of altitude");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/dragOverAltitude");
+nextPlot([filepath filesep "dragOverAltitude"]);
 
 plot(t, propellantMass, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t(apogeeIndex), propellantMass(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), propellantMass(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
-ylabel("propellant mass [kg]");
+xlabel("Time [s]");
+ylabel("Propellant mass [kg]");
 title("Propellant mass over time");
 legend('show', 'Location', 'best');
 xlim([-1 t(apogeeIndex)+1]);
 xticks([0 t(burnOutIndex) t(apogeeIndex)]);
 grid on
 scaleLims(0.1);
-nextPlot("flight/propellantMassOverTime");
+nextPlot([filepath filesep "propellantMassOverTime"]);
 
-plot(t, massFlow, 'LineWidth', 2, 'HandleVisibility','off')
-hold on
-plot(t(apogeeIndex), massFlow(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
-plot(t(burnOutIndex), massFlow(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
-xlim([-1 t(apogeeIndex)+1]);
-xticks([0 t(burnOutIndex) t(apogeeIndex)]);
-ylabel("propellant mass flow [kg/s]");
-title("Propellant mass flow over time");
-legend('show', 'Location', 'best');
-grid on
-scaleLims(0.1);
-nextPlot("flight/massFlowOverTime");
+% plot(t, massFlow, 'LineWidth', 2, 'HandleVisibility','off')
+% hold on
+% plot(t(apogeeIndex), massFlow(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
+% plot(t(burnOutIndex), massFlow(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
+% xlabel("time [s]");
+% xlim([-1 t(apogeeIndex)+1]);
+% xticks([0 t(burnOutIndex) t(apogeeIndex)]);
+% ylabel("propellant mass flow [kg/s]");
+% title("Propellant mass flow over time");
+% legend('show', 'Location', 'best');
+% grid on
+% scaleLims(0.1);
+% nextPlot([filepath filesep "massFlowOverTime"]);
 
 plot(t, thrust / 1e3, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
@@ -167,26 +179,26 @@ plot(t, pressureThrust / 1e3, '--', 'LineWidth', 2, 'DisplayName', 'Pressure com
 hold on
 plot(t(apogeeIndex), thrust(apogeeIndex) / 1e3, 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), thrust(burnOutIndex) / 1e3, 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
+xlabel("Time [s]");
 xlim([-1 t(apogeeIndex)+1]);
 xticks([0 t(burnOutIndex) t(apogeeIndex)]);
-ylabel("thrust [kN]");
+ylabel("Thrust [kN]");
 title("Thrust over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/thrustOverTime");
+nextPlot([filepath filesep "thrustOverTime"]);
 
 plot(t, specificImpulse, 'LineWidth', 2, 'HandleVisibility','off')
 hold on
 plot(t(apogeeIndex), specificImpulse(apogeeIndex), 'b*', 'DisplayName', 'Apogee')
 plot(t(burnOutIndex), specificImpulse(burnOutIndex), 'ro', 'DisplayName', 'Burnout')
-xlabel("time [s]");
+xlabel("Time [s]");
 xlim([-1 t(apogeeIndex)+1]);
 xticks([0 t(burnOutIndex) t(apogeeIndex)]);
-ylabel("Specific impulse (s)");
+ylabel("Specific impulse [s]");
 title("Specific impulse over time");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/specificImpulseOverTime");
+nextPlot([filepath filesep "specificImpulseOverTime"]);

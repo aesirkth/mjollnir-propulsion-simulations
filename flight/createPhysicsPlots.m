@@ -10,7 +10,7 @@ xlim([0, 5])
 xlabel("Mach number");
 ylabel("Coefficient of drag");
 title("Coefficient of drag");
-nextPlot("flight/physics/coefficientOfDrag");
+nextPlot([filepath filesep "physics/coefficientOfDrag"]);
 
 altitude = linspace(0, 25, 100) * 1e3;
 [density, pressure, speedOfSound] = atmosphereModel(altitude);
@@ -20,25 +20,25 @@ plot(altitude/1e3, density, 'LineWidth', 2);
 xlabel("Altitude [km]");
 ylabel("Air density (kg/m^3)");
 title("Air density as function of altitude");
-nextPlot("flight/physics/airDensity");
+nextPlot([filepath filesep "physics/airDensity"]);
 
 plot(altitude/1e3, pressure/1000, 'LineWidth', 2);
 xlabel("Altitude [km]");
 ylabel("Air pressure (kPa)");
 title("Air pressure as function of altitude");
-nextPlot("flight/physics/airPressure");
+nextPlot([filepath filesep "physics/airPressure"]);
 
 plot(altitude/1e3, speedOfSound, 'LineWidth', 2);
 xlabel("Altitude [km]");
 ylabel("Speed of sound (m/s)");
 title("Speed of sound as function of altitude");
-nextPlot("flight/physics/speedOfSound");
+nextPlot([filepath filesep "physics/speedOfSound"]);
 
 plot(altitude/1e3, gravity, 'LineWidth', 2);
 xlabel("Altitude [km]");
 ylabel("Gravity (m/s^2)");
 title("Gravity as function of altitude");
-nextPlot("flight/physics/gravity");
+nextPlot([filepath filesep "physics/gravity"]);
 
 
 t = flightState.time;
@@ -63,7 +63,7 @@ title("Atmosphere pressure during flight");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/physics/ambientPressureOverAltitude");
+nextPlot([filepath filesep "physics/ambientPressureOverAltitude"]);
 
 plot(t, ambientDensity, 'LineWidth', 2, 'HandleVisibility','off');
 hold on
@@ -75,7 +75,7 @@ title("Atmosphere density during flight");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/physics/ambientDensityOverAltitude");
+nextPlot([filepath filesep "physics/ambientDensityOverAltitude"]);
 
 
 plot(t, speedOfSound, 'LineWidth', 2, 'HandleVisibility','off');
@@ -88,4 +88,4 @@ title("Sound of speed during flight");
 legend('show', 'Location', 'best');
 grid on
 scaleLims(0.1);
-nextPlot("flight/physics/speedOfSoundOverAltitude");
+nextPlot([filepath filesep "physics/speedOfSoundOverAltitude"]);
