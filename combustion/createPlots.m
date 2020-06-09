@@ -18,8 +18,8 @@ nextPlot('');
 plot(t,combustionState.regressionRate*1000, 'LineWidth', 2)
 xlim([TSTART TEND]);
 xlabel('Time [s]')
-ylabel('Regression Rate [mm/s]')
-title('Regression Rate over time')
+ylabel('Regression rate [mm/s]')
+title('Regression rate over time')
 grid('on')
 scaleLims(0.1);
 nextPlot([filepath filesep 'regressionRate'])
@@ -38,8 +38,8 @@ fill([t(1) t(end) t(end) t(1)], [y2 y2 y3 y3]*1e3, '-', 'LineWidth', 2,  'Displa
 xlim([TSTART TEND]);
 ylim([0, y3*1e3])
 xlabel('Time [s]')
-ylabel('Port Radius [mm]')
-title('Port Radius over time')
+ylabel('Port radius [mm]')
+title('Port radius over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
@@ -57,7 +57,7 @@ nextPlot([filepath filesep 'portRadius'])
 % nextPlot([filepath filesep 'allPressure'])
 
 %
-semilogy(t,combustionState.tankPressure./combustionState.ccPressure, 'LineWidth', 2, 'DisplayName', 'CC/exhaust pressure')
+semilogy(t,combustionState.tankPressure./combustionState.ccPressure, 'LineWidth', 2, 'DisplayName', 'tankPressure/ccPressure')
 hold on;
 xlim([TSTART TEND]);
 xlabel('Time [s]')
@@ -79,11 +79,11 @@ scaleLims(0.1);
 grid('on')
 nextPlot([filepath filesep 'pressureDiff'])
 
-plot(t,combustionState.exhaustPressure/1e5', 'LineWidth', 2, 'DisplayName', 'Exhaust pressure')
+plot(t,combustionState.exhaustPressure/1e3', 'LineWidth', 2, 'DisplayName', 'Exhaust pressure')
 hold on;
 xlim([TSTART TEND]);
 xlabel('Time [s]')
-ylabel('Pressure [bar]')
+ylabel('Pressure [kPa]')
 title('Exhaust pressure over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
@@ -121,8 +121,8 @@ plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.
 plot([t(1) t(end)], [combustionState.opts.ccCombustionPressure, combustionState.opts.ccCombustionPressure]*combustionState.opts.ccCombustionPressureSafetyMargin/1e6, '--', 'LineWidth', 2, 'DisplayName', 'Burst pressure')
 xlim([TSTART TEND]);
 xlabel('Time [s]')
-ylabel('CC Pressure [MPa]')
-title('Combustion Chamber pressure over time')
+ylabel('Pressure [MPa]')
+title('Combustion chamber pressure over time')
 legend('show', 'Location', 'best');
 scaleLims(0.1);
 grid('on')
@@ -132,7 +132,7 @@ OF = combustionState.oxidizerMassFlow ./ combustionState.fuelMassFlow;
 plot(t,OF, 'LineWidth', 2)
 xlim([TSTART TEND]);
 xlabel('Time [s]')
-ylabel('O/F ratio [MPa]')
+ylabel('O/F ratio [1]')
 title('O/F ratio over time')
 grid('on')
 scaleLims(0.1);
@@ -153,8 +153,8 @@ nextPlot([filepath filesep 'thrust'])
 plot(t,combustionState.ccTemperature, 'LineWidth', 2)
 xlim([TSTART TEND]);
 xlabel('Time [s]')
-ylabel('CC Temperature [K]')
-title('Combustion Chamber Temperature over time')
+ylabel('Temperature [K]')
+title('Combustion chamber temperature over time')
 grid('on')
 scaleLims(0.1);
 nextPlot([filepath filesep 'combustionTemperature'])
@@ -208,8 +208,8 @@ if tankModel ~= 0
     plot(t,combustionState.wallTemperatureLNode, '--', 'LineWidth', 2, 'DisplayName','Wall temperature of liquid node')
     xlim([TSTART TEND]);
     xlabel('Time [s]')
-    ylabel('Temperature temperature [T]')
-    title('Oxidizer temperature over time')
+    ylabel('Temperature [K]')
+    title('Oxidizer and tank temperature over time')
     legend('show', 'Location', 'best');
     scaleLims(0.1);
     grid('on')
